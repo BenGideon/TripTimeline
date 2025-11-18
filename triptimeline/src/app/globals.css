@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #0a400c;
+  --color-secondary: #819067;
+  --color-accent: #b1ab86;
+  --color-bg: #fefae0;
+
+  --shadow-subtle: 0 2px 8px rgba(10, 64, 12, 0.1);
+  --shadow-medium: 0 8px 16px rgba(10, 64, 12, 0.15);
+  --shadow-lg: 0 12px 24px rgba(10, 64, 12, 0.2);
+}
+
+/* Force TailwindCSS to process */
+.test-class {
+  color: red;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Inconsolata", monospace;
+    background-color: #fefae0;
+    color: #0a400c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Glassmorphism utilities */
+  .glass {
+    background: rgba(254, 250, 224, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(8, 64, 12, 0.15);
+  }
+
+  .glass-subtle {
+    background: rgba(254, 250, 224, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(129, 144, 103, 0.1);
+  }
+
+  .glass-dark {
+    background: rgba(10, 64, 12, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(129, 144, 103, 0.2);
+  }
+
+  /* Travel-themed utilities */
+  .travel-gradient {
+    background: linear-gradient(135deg, #0a400c 0%, #819067 50%, #b1ab86 100%);
+  }
+
+  .travel-gradient-reverse {
+    background: linear-gradient(135deg, #b1ab86 0%, #819067 50%, #0a400c 100%);
+  }
+
+  /* Color utility classes */
+  .text-primary {
+    color: #0a400c;
+  }
+
+  .text-secondary {
+    color: #819067;
+  }
+
+  .text-accent {
+    color: #b1ab86;
+  }
+
+  .bg-primary {
+    background-color: #0a400c;
+  }
+
+  .bg-secondary {
+    background-color: #819067;
+  }
+
+  .bg-accent {
+    background-color: #b1ab86;
+  }
+
+  .border-primary {
+    border-color: #0a400c;
+  }
+
+  .border-secondary {
+    border-color: #819067;
+  }
+
+  .border-accent {
+    border-color: #b1ab86;
+  }
+
+  /* Button utilities */
+  .btn-primary {
+    background-color: #0a400c;
+    color: #fefae0;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #073308;
+    box-shadow: var(--shadow-medium);
+  }
+
+  .btn-secondary {
+    background-color: #819067;
+    color: #fefae0;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background-color: #6a7852;
+    box-shadow: var(--shadow-medium);
+  }
+
+  .btn-outline {
+    border: 2px solid #0a400c;
+    color: #0a400c;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline:hover {
+    background-color: #0a400c;
+    color: #fefae0;
+  }
+}

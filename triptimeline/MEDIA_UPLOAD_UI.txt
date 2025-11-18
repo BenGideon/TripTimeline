@@ -1,0 +1,154 @@
+ADD THIS HANDLER FUNCTION TO VerticalItinerary.tsx AFTER handleSaveExpense (after line 205):
+
+---
+
+const handleMediaUpload = async (dayIndex: number, file: File) => {
+  setIsMediaUploading(true);
+  try {
+    const { uploadMedia } = await import('@/lib/trip-service');
+    const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+    
+    // Note: tripId needs to be passed from parent component
+    // For now, we'll log the upload
+    console.log('Uploading media:', {
+      file: file.name,
+      type: mediaType,
+      size: file.size
+    });
+    
+    // This will be called from parent with tripId
+    // await uploadMedia(tripId, dayIndex + 1, file, mediaType);
+  } catch (error) {
+    console.error('Error uploading media:', error);
+  } finally {
+    setIsMediaUploading(false);
+  }
+};
+
+---
+
+ADD THIS SECTION TO THE EXPANDED DAY VIEW (after Day Notes section, before Activities Section):
+
+Find this line:
+                        {/* Activities Section */}
+                        <div className="p-6 space-y-6">
+
+Add this BEFORE it:
+
+                        {/* Media Gallery Section */}
+                        <div className="p-6 bg-blue-50 border-b border-blue-100">
+                          <h5 className="font-semibold text-gray-900 mb-4 flex items-center">
+                            🖼️ Media Gallery
+                          </h5>
+                          
+                          {/* Media Upload Button */}
+                          <div className="mb-4">
+                            <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-100 transition-colors">
+                              <div className="flex items-center space-x-2">
+                                <span className="text-2xl">📸</span>
+                                <span className="text-sm font-medium text-gray-700">Upload Photo or Video</span>
+                              </div>
+                              <input
+                                type="file"
+                                accept="image/*,video/*"
+                                multiple
+                                className="hidden"
+                                onChange={(e) => {
+                                  if (e.target.files) {
+                                    Array.from(e.target.files).forEach(file => {
+                                      handleMediaUpload(dayIndex, file);
+                                    });
+                                  }
+                                }}
+                                disabled={isMediaUploading}
+                              />
+                            </label>
+                          </div>
+
+                          {/* Media Grid */}
+                          <div className="grid grid-cols-2 gap-4">
+                            {dayMedia[dayIndex]?.map((media) => (
+                              <div key={media.id} className="relative group">
+                                {media.type === 'image' ? (
+                                  <img
+                                    src={media.url}
+                                    alt={media.title}
+                                    className="w-full h-32 object-cover rounded-lg"
+                                  />
+                                ) : (
+                                  <video
+                                    src={media.url}
+                                    className="w-full h-32 object-cover rounded-lg"
+                                  />
+                                )}
+                                <button
+                                  onClick={() => {
+                                    // Delete media
+                                    console.log('Delete media:', media.id);
+                                  }}
+                                  className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+
+                          {!dayMedia[dayIndex] || dayMedia[dayIndex].length === 0 && (
+                            <p className="text-sm text-gray-500 text-center py-4">No media yet. Upload your first photo or video!</p>
+                          )}
+                        </div>
+
+---
+
+UPDATE VerticalItineraryProps INTERFACE to include tripId:
+
+Find:
+interface VerticalItineraryProps {
+  itinerary: ItineraryDay[];
+  tripId?: string;
+
+Make sure tripId is there (it should be already added).
+
+---
+
+THEN UPDATE THE COMPONENT DESTRUCTURING:
+
+Find:
+export default function VerticalItinerary({
+  itinerary,
+  tripId,
+
+Make sure tripId is destructured.
+
+---
+
+THEN UPDATE handleMediaUpload TO USE tripId:
+
+Replace the handleMediaUpload function with:
+
+const handleMediaUpload = async (dayIndex: number, file: File) => {
+  if (!tripId) {
+    console.error('Trip ID not available');
+    return;
+  }
+  
+  setIsMediaUploading(true);
+  try {
+    const { uploadMedia } = await import('@/lib/trip-service');
+    const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+    
+    await uploadMedia(tripId, dayIndex + 1, file, mediaType, file.name);
+    
+    // Refresh media for this day
+    const { getMediaForDay } = await import('@/lib/trip-service');
+    const media = await getMediaForDay(tripId, dayIndex + 1);
+    setDayMedia(prev => ({ ...prev, [dayIndex]: media }));
+    
+    console.log('Media uploaded successfully');
+  } catch (error) {
+    console.error('Error uploading media:', error);
+  } finally {
+    setIsMediaUploading(false);
+  }
+};

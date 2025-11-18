@@ -1,0 +1,74 @@
+ADD THESE FUNCTIONS TO VerticalItinerary.tsx AFTER toggleDay function (after line 212):
+
+---
+
+const handleDragStart = (dayIndex: number) => {
+  setDraggedDayIndex(dayIndex);
+};
+
+const handleDragOver = (e: React.DragEvent, dayIndex: number) => {
+  e.preventDefault();
+  setDragOverDayIndex(dayIndex);
+};
+
+const handleDragLeave = () => {
+  setDragOverDayIndex(null);
+};
+
+const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+  e.preventDefault();
+  setDragOverDayIndex(null);
+
+  if (draggedDayIndex === null || draggedDayIndex === dropIndex) {
+    return;
+  }
+
+  // Reorder in local state
+  const newItinerary = [...itinerary];
+  const draggedDay = newItinerary[draggedDayIndex];
+  newItinerary.splice(draggedDayIndex, 1);
+  newItinerary.splice(dropIndex, 0, draggedDay);
+
+  // Renumber days
+  const renumberedItinerary = newItinerary.map((day, index) => ({
+    ...day,
+    day: index + 1
+  }));
+
+  // Update parent
+  if (onUpdateDay) {
+    for (let i = 0; i < renumberedItinerary.length; i++) {
+      const day = renumberedItinerary[i];
+      if (day.day !== itinerary[i].day) {
+        await onUpdateDay(i, { day: day.day });
+      }
+    }
+  }
+
+  setDraggedDayIndex(null);
+};
+
+---
+
+THEN UPDATE THE DAY CARD DIV (around line 280) to add drag attributes:
+
+Find this:
+                <div 
+                  key={dayIndex}
+                  className="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200 overflow-hidden"
+                >
+
+Replace with:
+                <div 
+                  key={dayIndex}
+                  draggable
+                  onDragStart={() => handleDragStart(dayIndex)}
+                  onDragOver={(e) => handleDragOver(e, dayIndex)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, dayIndex)}
+                  className={`bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200 overflow-hidden cursor-move ${
+                    draggedDayIndex === dayIndex ? 'opacity-50' : ''
+                  } ${
+                    dragOverDayIndex === dayIndex && draggedDayIndex !== dayIndex ? 'border-purple-500 border-2 bg-purple-50' : ''
+                  }`}
+                >

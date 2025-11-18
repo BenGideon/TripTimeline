@@ -1,0 +1,98 @@
+/* [project]/All Git Clones/Travel Planner/triptimeline/src/styles/luxury.css [app-client] (css) */
+:root {
+  --color-ivory: #e4e4de;
+  --color-sage: #c4c5ba;
+  --color-black: #1b1b1b;
+  --color-moss: #595f39;
+  --shadow-subtle: 0 2px 8px #1b1b1b14;
+  --shadow-medium: 0 8px 24px #1b1b1b1f;
+  --shadow-deep: 0 16px 48px #1b1b1b26;
+  --spacing-unit: 8px;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-black);
+  letter-spacing: .3px;
+  font-family: Segoe UI, -apple-system, BlinkMacSystemFont, Helvetica Neue, sans-serif;
+}
+
+.luxury-border {
+  border-top: 2px solid var(--color-moss);
+  border-bottom: 1px solid var(--color-sage);
+}
+
+.luxury-divider {
+  background: linear-gradient(to right, transparent, var(--color-moss), transparent);
+  height: 1px;
+  margin: 1.5rem 0;
+}
+
+.luxury-text {
+  color: var(--color-black);
+  letter-spacing: .4px;
+  font-weight: 500;
+}
+
+.luxury-accent {
+  color: var(--color-moss);
+}
+
+.btn-luxury {
+  background-color: var(--color-moss);
+  color: var(--color-ivory);
+  border: 1px solid var(--color-moss);
+  letter-spacing: .5px;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 12px 28px;
+  font-weight: 500;
+  transition: all .3s;
+}
+
+.btn-luxury:hover {
+  background-color: var(--color-black);
+  border-color: var(--color-black);
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
+}
+
+.btn-luxury-outline {
+  color: var(--color-moss);
+  border: 1px solid var(--color-moss);
+  letter-spacing: .5px;
+  cursor: pointer;
+  background-color: #0000;
+  border-radius: 2px;
+  padding: 12px 28px;
+  font-weight: 500;
+  transition: all .3s;
+}
+
+.btn-luxury-outline:hover {
+  background-color: var(--color-moss);
+  color: var(--color-ivory);
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
+}
+
+.card-luxury {
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-sage);
+  box-shadow: var(--shadow-subtle);
+  border-radius: 2px;
+  transition: all .3s;
+}
+
+.card-luxury:hover {
+  box-shadow: var(--shadow-medium);
+  border-color: var(--color-moss);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #595f391a;
+  border-color: var(--color-moss) !important;
+}
+
+/*# sourceMappingURL=All%20Git%20Clones_Travel%20Planner_triptimeline_src_styles_luxury_css_bad6b30c._.single.css.map*/

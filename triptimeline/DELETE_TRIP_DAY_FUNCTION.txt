@@ -1,0 +1,88 @@
+ADD THIS FUNCTION TO src/lib/trip-service.ts AFTER updateTripDay (after line 349):
+
+---
+
+export async function deleteTripDay(tripId: string, dayIndex: number): Promise<void> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    throw new Error('User not authenticated');
+  }
+
+  // Find the trip day
+  const { data: tripDay, error: findError } = await (supabase as any)
+    .from('trip_days')
+    .select('id')
+    .eq('trip_id', tripId)
+    .eq('day_index', dayIndex)
+    .single();
+
+  if (findError || !tripDay) {
+    console.warn(`Trip day ${dayIndex} not found for trip ${tripId}`);
+    return;
+  }
+
+  // Delete the trip day (cascade will delete events)
+  const { error } = await (supabase as any)
+    .from('trip_days')
+    .delete()
+    .eq('id', tripDay.id);
+
+  if (error) {
+    console.error('Error deleting trip day:', error);
+    throw new Error(`Failed to delete trip day: ${error.message}`);
+  }
+
+  console.log('Trip day deleted successfully');
+}
+
+---
+
+THEN UPDATE src/app/itinerary/[id]/page.tsx onDeleteDay callback (around line 311):
+
+Replace this:
+              onDeleteDay={async (dayIndex: number) => {
+                try {
+                  // Remove from local state immediately for better UX
+                  const updatedItinerary = [...trip.itinerary];
+                  updatedItinerary.splice(dayIndex, 1);
+                  
+                  // Renumber the remaining days
+                  const renumberedItinerary = updatedItinerary.map((day, index) => ({
+                    ...day,
+                    day: index + 1
+                  }));
+                  
+                  updateTrip({ itinerary: renumberedItinerary });
+                  
+                  // TODO: Add database deletion when RLS policies are fixed
+                  console.log('Day deleted from local state. Database deletion will be added when RLS is fixed.');
+                } catch (error) {
+                  console.error('Error deleting day:', error);
+                }
+              }}
+
+With this:
+              onDeleteDay={async (dayIndex: number) => {
+                try {
+                  const dayToDelete = trip.itinerary[dayIndex];
+                  
+                  // Delete from database first
+                  const { deleteTripDay } = await import('@/lib/trip-service');
+                  await deleteTripDay(trip.id, dayToDelete.day);
+                  
+                  // Remove from local state
+                  const updatedItinerary = [...trip.itinerary];
+                  updatedItinerary.splice(dayIndex, 1);
+                  
+                  // Renumber the remaining days
+                  const renumberedItinerary = updatedItinerary.map((day, index) => ({
+                    ...day,
+                    day: index + 1
+                  }));
+                  
+                  updateTrip({ itinerary: renumberedItinerary });
+                  console.log('Day deleted successfully from database and local state');
+                } catch (error) {
+                  console.error('Error deleting day:', error);
+                }
+              }}

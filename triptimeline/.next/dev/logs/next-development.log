@@ -1,0 +1,247 @@
+[00:00:00.739] Server  LOG      ✓ Ready in 524ms
+[00:00:07.520] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:08.915] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:53:38.030] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:53:41.039] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:06:49.345] Server  LOG      ✓ Compiled in 132ms
+[02:06:50.561] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:07:39.791] Server  LOG      ✓ Compiled in 128ms
+[02:07:52.116] Server  LOG      ✓ Compiled in 96ms
+[02:07:52.850] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:07:58.132] Server  LOG      ✓ Compiled in 109ms
+[02:13:21.643] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:13:29.919] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:13:30.836] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:14:42.884] Server  LOG      ✓ Compiled in 247ms
+[02:15:30.573] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:15:43.690] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:15:56.637] Server  LOG      ✓ Compiled in 124ms
+[02:16:01.763] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:04.188] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:07.033] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:08.101] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:09.004] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:11.301] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:17:53.202] Server  LOG      ✓ Compiled in 103ms
+[02:18:18.370] Server  LOG      ✓ Compiled in 106ms
+[02:18:18.773] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:18:21.226] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:18:30.549] Server  LOG      ✓ Compiled in 100ms
+[02:18:35.348] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:18:40.202] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:19:07.415] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:20:29.166] Server  LOG      ✓ Compiled in 220ms
+[02:20:40.613] Server  LOG      ✓ Compiled in 116ms
+[02:21:33.415] Server  LOG      ✓ Compiled in 110ms
+[02:21:47.297] Server  LOG      ✓ Compiled in 70ms
+[02:21:47.692] Browser ERROR   uncaughtError: ReferenceError: showCollaborators is not defined
+[02:21:57.686] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:21:57.705] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:21:57.707] Server  LOG      ✓ Compiled in 170ms
+[02:21:58.573] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:22:11.865] Server  LOG      ✓ Compiled in 102ms
+[02:22:40.638] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:36:12.473] Server  LOG      ✓ Compiled in 0ms
+[02:36:13.441] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:36:24.405] Server  LOG      ✓ Compiled in 171ms
+[02:36:39.058] Server  LOG      ✓ Compiled in 169ms
+[02:36:52.211] Server  LOG      ✓ Compiled in 112ms
+[02:37:12.775] Server  LOG      ✓ Compiled in 222ms
+[02:37:23.697] Server  LOG      ✓ Compiled in 152ms
+[02:37:39.266] Server  LOG      ✓ Compiled in 182ms
+[02:38:01.386] Server  LOG      ✓ Compiled in 156ms
+[02:39:44.336] Server  LOG      ✓ Compiled in 176ms
+[02:40:03.890] Server  LOG      ✓ Compiled in 114ms
+[02:40:18.729] Server  LOG      ✓ Compiled in 178ms
+[02:40:31.056] Server  LOG      ✓ Compiled in 134ms
+[02:40:44.044] Server  LOG      ✓ Compiled in 98ms
+[02:40:57.251] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:40:57.308] Server  LOG      ✓ Compiled in 252ms
+[02:41:21.288] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:43:57.352] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:44:01.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:44:06.305] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:44:16.437] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:44:20.297] Server  LOG      ✓ Compiled in 149ms
+[02:44:20.646] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:44:21.832] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:49:37.093] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:49:49.708] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:49:57.107] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:04:20.122] Server  LOG      ✓ Compiled in 445ms
+[03:04:36.699] Server  ERROR    ⨯ ReferenceError: inter is not defined
+[03:04:36.717] Server  ERROR    ⨯ ReferenceError: inter is not defined
+[03:04:37.087] Server  ERROR    ⨯ ReferenceError: inter is not defined
+[03:04:37.115] Server  LOG      ✓ Compiled in 0ms
+[03:04:37.167] Server  ERROR    ⨯ ReferenceError: inter is not defined
+[03:04:38.495] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:04:38.495] Browser ERROR   uncaughtError: ReferenceError: inter is not defined
+[03:04:42.530] Server  LOG      ✓ Compiled in 134ms
+[03:04:43.320] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:05:02.730] Server  LOG      ✓ Compiled in 138ms
+[03:05:06.978] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:05:22.350] Server  LOG      ✓ Compiled in 157ms
+[03:05:32.372] Server  LOG      ✓ Compiled in 108ms
+[03:05:43.273] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:05:46.241] Server  LOG      ✓ Compiled in 120ms
+[03:06:01.586] Server  LOG      ✓ Compiled in 127ms
+[03:06:10.675] Server  LOG      ✓ Compiled in 240ms
+[03:06:18.394] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:18.903] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:06:22.690] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:23.484] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:06:36.112] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:41.671] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:51.192] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:06:52.744] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:07:01.275] Server  LOG      ✓ Compiled in 127ms
+[03:07:21.015] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:07:24.752] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:07:41.895] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:07:57.469] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:09:16.642] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:10:03.695] Server  LOG      ✓ Compiled in 621ms
+[03:10:34.646] Server  LOG      ✓ Compiled in 245ms
+[03:11:30.656] Server  LOG      ✓ Compiled in 123ms
+[03:11:43.738] Server  LOG      ✓ Compiled in 331ms
+[03:11:58.620] Server  LOG      ✓ Compiled in 206ms
+[03:12:12.704] Server  LOG      ✓ Compiled in 103ms
+[03:17:20.355] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:17:33.705] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:17:44.139] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:17:45.863] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:18:51.210] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:19:34.073] Server  LOG      ✓ Compiled in 179ms
+[03:19:45.115] Server  LOG      ✓ Compiled in 171ms
+[03:20:03.070] Server  LOG      ✓ Compiled in 123ms
+[03:20:16.046] Server  LOG      ✓ Compiled in 113ms
+[03:20:26.938] Server  LOG      ✓ Compiled in 110ms
+[03:20:41.638] Server  LOG      ✓ Compiled in 193ms
+[03:22:25.755] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:23:17.100] Server  LOG      ✓ Compiled in 187ms
+[03:24:40.914] Server  LOG      ✓ Compiled in 120ms
+[03:24:52.958] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:26:56.926] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:27:00.460] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:27:14.731] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:28:39.895] Server  LOG      ✓ Compiled in 178ms
+[03:29:07.531] Server  LOG      ✓ Compiled in 125ms
+[03:29:17.812] Server  LOG      ✓ Compiled in 101ms
+[03:29:31.316] Server  LOG      ✓ Compiled in 150ms
+[03:29:43.431] Server  LOG      ✓ Compiled in 210ms
+[03:31:24.161] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:31:37.952] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:33:05.592] Server  LOG      ✓ Compiled in 171ms
+[03:33:06.399] Browser ERROR   ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx:10:28
+Parsing ecmascript source code failed
+   8 | import VerticalItinerary from "@/components/VerticalItinerary";
+   9 | import PackingList from "@/components/PackingList";
+> 10 | import ExpenseTracker from "@/components/ExpenseTracke        {/* Back Button */}
+     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |         <div className="flex justify-end mb-8">
+  12 |           <button
+  13 |             onClick={() => router.push("/dashboard")}
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component Browser]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component SSR]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+[03:33:16.400] Browser ERROR   ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx:10:28
+Parsing ecmascript source code failed
+   8 | import VerticalItinerary from "@/components/VerticalItinerary";
+   9 | import PackingList from "@/components/PackingList";
+> 10 | import ExpenseTracker from "@/components/ExpenseTracke        {/* Back Button */}
+     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |         <div className="flex justify-end mb-8">
+  12 |           <button
+  13 |             onClick={() => router.push("/dashboard")}
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component Browser]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component SSR]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+[03:33:29.900] Server  LOG      ✓ Compiled in 163ms
+[03:33:30.400] Browser ERROR   ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx:10:28
+Parsing ecmascript source code failed
+   8 | import VerticalItinerary from "@/components/VerticalItinerary";
+   9 | import PackingList from "@/components/PackingList";
+> 10 | import ExpenseTracker from "@/components/ExpenseTracke        {/* Back Button */}
+     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |         <div className="flex justify-end mb-8">
+  12 |           <button
+  13 |             onClick={() => router.push("/dashboard")}
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component Browser]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component SSR]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+[03:33:39.965] Server  LOG      ✓ Compiled in 142ms
+[03:33:40.399] Browser ERROR   ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx:10:28
+Parsing ecmascript source code failed
+   8 | import VerticalItinerary from "@/components/VerticalItinerary";
+   9 | import PackingList from "@/components/PackingList";
+> 10 | import ExpenseTracker from "@/components/ExpenseTracke        {/* Back Button */}
+     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |         <div className="flex justify-end mb-8">
+  12 |           <button
+  13 |             onClick={() => router.push("/dashboard")}
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component Browser]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component SSR]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+[03:33:51.095] Server  LOG      ✓ Compiled in 129ms
+[03:33:51.399] Browser ERROR   ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx:10:28
+Parsing ecmascript source code failed
+   8 | import VerticalItinerary from "@/components/VerticalItinerary";
+   9 | import PackingList from "@/components/PackingList";
+> 10 | import ExpenseTracker from "@/components/ExpenseTracke        {/* Back Button */}
+     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |         <div className="flex justify-end mb-8">
+  12 |           <button
+  13 |             onClick={() => router.push("/dashboard")}
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component Browser]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Client Component SSR]
+    ./All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx [Server Component]
+[03:34:33.275] Server  LOG      ✓ Compiled in 139ms
+[03:36:27.131] Server  LOG      ✓ Compiled in 151ms
+[03:36:34.782] Server  LOG      ✓ Compiled in 141ms
+[03:36:46.038] Server  LOG      ✓ Compiled in 109ms
+[03:42:35.928] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:42:37.723] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[03:42:57.685] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:42:59.889] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:43:10.984] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[03:51:08.124] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
