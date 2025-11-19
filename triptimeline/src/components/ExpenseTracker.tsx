@@ -30,39 +30,45 @@ export default function ExpenseTracker({
   const categories = [
     {
       id: "accommodation",
-      name: "Accommodation",
+      name: "Accommodation", 
       icon: "🏨",
-      color: "bg-blue-100 text-blue-800",
+      color: "text-primary",
+      bgColor: "#fefae0",
     },
     {
       id: "food",
       name: "Food & Drinks",
-      icon: "🍽️",
-      color: "bg-green-100 text-green-800",
+      icon: "🍽️", 
+      color: "text-secondary",
+      bgColor: "#fefae0",
     },
     {
       id: "transport",
       name: "Transport",
       icon: "🚗",
-      color: "bg-yellow-100 text-yellow-800",
+      color: "text-accent",
+      bgColor: "#fefae0",
     },
     {
       id: "activities",
       name: "Activities",
       icon: "🎯",
-      color: "bg-purple-100 text-purple-800",
+      color: "text-primary",
+      bgColor: "#b1ab86",
     },
     {
       id: "shopping",
-      name: "Shopping",
+      name: "Shopping", 
       icon: "🛍️",
-      color: "bg-pink-100 text-pink-800",
+      color: "text-secondary",
+      bgColor: "#b1ab86",
     },
     {
       id: "other",
       name: "Other",
       icon: "📦",
-      color: "bg-gray-100 text-gray-800",
+      color: "text-accent",
+      bgColor: "#819067",
     },
   ];
 
@@ -130,17 +136,17 @@ export default function ExpenseTracker({
   const getBudgetStatus = () => {
     if (spentPercentage > 100)
       return {
-        color: "text-red-600",
-        bg: "bg-red-500",
+        color: "#0a400c",
+        bg: "#0a400c", 
         status: "Over Budget!",
       };
     if (spentPercentage > 80)
       return {
-        color: "text-yellow-600",
-        bg: "bg-yellow-500",
+        color: "#819067",
+        bg: "#b1ab86",
         status: "Close to Limit",
       };
-    return { color: "text-green-600", bg: "bg-green-500", status: "On Track" };
+    return { color: "#819067", bg: "#819067", status: "On Track" };
   };
 
   const budgetStatus = getBudgetStatus();
@@ -160,7 +166,11 @@ export default function ExpenseTracker({
           </div>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="btn-primary px-6 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 border-2 border-primary hover:border-secondary"
+            style={{
+              background: 'linear-gradient(to right, #0A400C, #819067)',
+              color: '#FEFAE0'
+            }}
           >
             + Add Expense
           </button>
@@ -168,27 +178,26 @@ export default function ExpenseTracker({
 
         {/* Budget Progress */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gray-900 mb-1">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-accent border-opacity-30">
+            <div className="text-3xl font-bold text-primary mb-1">
               {budget.toLocaleString()} {currency}
             </div>
-            <div className="text-sm text-gray-600">Total Budget</div>
+            <div className="text-sm font-semibold text-gray-800">Total Budget</div>
           </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-600 mb-1">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-primary border-opacity-30">
+            <div className="text-3xl font-bold text-primary mb-1">
               {totalSpent.toLocaleString()} {currency}
             </div>
-            <div className="text-sm text-gray-600">Total Spent</div>
+            <div className="text-sm font-semibold text-gray-800">Total Spent</div>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-secondary border-opacity-30">
             <div
-              className={`text-3xl font-bold mb-1 ${
-                remaining >= 0 ? "text-green-600" : "text-red-600"
-              }`}
+              className="text-3xl font-bold mb-1"
+              style={{color: remaining >= 0 ? '#819067' : '#0a400c'}}
             >
               {remaining.toLocaleString()} {currency}
             </div>
-            <div className="text-sm text-gray-600">Remaining</div>
+            <div className="text-sm font-semibold text-gray-800">Remaining</div>
           </div>
         </div>
 
@@ -198,7 +207,7 @@ export default function ExpenseTracker({
             <span className="text-sm font-medium text-gray-700">
               Budget Usage
             </span>
-            <span className={`text-sm font-medium ${budgetStatus.color}`}>
+            <span className="text-sm font-bold bg-white/90 text-primary px-2 py-1 rounded-full border border-primary border-opacity-30 shadow-sm backdrop-blur-sm">
               {Math.round(spentPercentage)}% • {budgetStatus.status}
             </span>
           </div>
@@ -261,7 +270,7 @@ export default function ExpenseTracker({
                   setNewExpense({ ...newExpense, title: e.target.value })
                 }
                 placeholder="Expense title"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
 
               <div className="flex space-x-3">
@@ -277,7 +286,7 @@ export default function ExpenseTracker({
                   placeholder="Amount"
                   min="0"
                   step="0.01"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
                 <div className="px-4 py-3 bg-gray-100 rounded-xl text-gray-700 font-medium">
                   {currency}
@@ -292,7 +301,7 @@ export default function ExpenseTracker({
                     category: e.target.value as Expense["category"],
                   })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -307,7 +316,7 @@ export default function ExpenseTracker({
                 onChange={(e) =>
                   setNewExpense({ ...newExpense, date: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
 
               <textarea
@@ -317,19 +326,19 @@ export default function ExpenseTracker({
                 }
                 placeholder="Description (optional)"
                 rows={2}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
               />
 
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={() => setShowAddForm(false)}
-                  className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 border border-secondary border-opacity-30 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={addExpense}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200"
+                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
                 >
                   Add Expense
                 </button>
@@ -346,9 +355,12 @@ export default function ExpenseTracker({
             onClick={() => setFilter("all")}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
               filter === "all"
-                ? "bg-green-600 text-white shadow-lg"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "text-white shadow-lg"
+                : "text-gray-700 hover:bg-gray-200"
             }`}
+            style={{
+              backgroundColor: filter === "all" ? "#0a400c" : "#fefae0",
+            }}
           >
             All Expenses ({expenses.length})
           </button>
@@ -364,9 +376,12 @@ export default function ExpenseTracker({
                 onClick={() => setFilter(category.id as Expense["category"])}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                   filter === category.id
-                    ? "bg-green-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "text-white shadow-lg"
+                    : "text-gray-700 hover:bg-gray-200"
                 }`}
+                style={{
+                  backgroundColor: filter === category.id ? "#819067" : "#fefae0",
+                }}
               >
                 {category.icon} {category.name} ({count})
               </button>
@@ -399,6 +414,11 @@ export default function ExpenseTracker({
                         <div className="flex items-center space-x-4 mt-1">
                           <span
                             className={`px-3 py-1 rounded-full text-xs font-medium ${categoryInfo.color}`}
+                            style={{
+                              backgroundColor: categoryInfo.bgColor,
+                              color: categoryInfo.color === 'text-primary' ? '#0a400c' : 
+                                     categoryInfo.color === 'text-secondary' ? '#819067' : '#b1ab86'
+                            }}
                           >
                             {categoryInfo.name}
                           </span>
@@ -422,7 +442,18 @@ export default function ExpenseTracker({
                       </div>
                       <button
                         onClick={() => removeExpense(expense.id)}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 text-gray-400 rounded-lg transition-colors"
+                        style={{
+                          color: '#b1ab86'
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLElement).style.color = '#0a400c';
+                          (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLElement).style.color = '#b1ab86';
+                          (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                        }}
                       >
                         <svg
                           className="w-5 h-5"
@@ -461,7 +492,7 @@ export default function ExpenseTracker({
             {filter === "all" && (
               <button
                 onClick={() => setShowAddForm(true)}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200"
+                className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
               >
                 Add Your First Expense
               </button>

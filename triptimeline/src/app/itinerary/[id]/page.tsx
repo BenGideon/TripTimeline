@@ -422,6 +422,7 @@ export default function ItineraryPage({
 
           {activeTab === "accommodation" && trip && (
             <AccommodationManager
+              tripId={trip.id}
               itinerary={trip.itinerary}
               onUpdateItinerary={(itinerary) => updateTrip({ itinerary })}
             />

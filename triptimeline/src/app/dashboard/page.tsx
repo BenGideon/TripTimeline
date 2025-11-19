@@ -74,10 +74,10 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: '#fefae0'}}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{borderBottomColor: '#0a400c'}}></div>
+          <p style={{color: '#819067'}}>Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -102,7 +102,7 @@ export default function DashboardPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section with Gradient */}
-        <div className="travel-gradient rounded-2xl p-12 text-white mb-12 shadow-lg">
+        <div className="subtle-green-gradient rounded-2xl p-12 text-white mb-12 shadow-lg">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">
             Welcome back,{" "}
             {user.user_metadata?.display_name || user.email?.split("@")[0]}! ✈️
@@ -114,9 +114,9 @@ export default function DashboardPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="glass rounded-xl p-6 shadow-md">
+          <div className="glass rounded-xl p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer border border-transparent hover:border-primary hover:border-opacity-30">
             <div className="flex items-center">
-              <div className="p-3 bg-primary bg-opacity-10 rounded-full">
+              <div className="p-3 bg-primary bg-opacity-10 rounded-full hover:bg-opacity-20 transition-all duration-200">
                 <svg
                   className="w-6 h-6 text-primary"
                   fill="none"
@@ -142,9 +142,9 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="glass rounded-xl p-6 shadow-md">
+          <div className="glass rounded-xl p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer border border-transparent hover:border-secondary hover:border-opacity-30">
             <div className="flex items-center">
-              <div className="p-3 bg-secondary bg-opacity-10 rounded-full">
+              <div className="p-3 bg-secondary bg-opacity-10 rounded-full hover:bg-opacity-20 transition-all duration-200">
                 <svg
                   className="w-6 h-6 text-secondary"
                   fill="none"
@@ -184,7 +184,7 @@ export default function DashboardPage() {
               {pendingInvitations.map((invitation) => (
                 <div
                   key={invitation.id}
-                  className="glass rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+                  className="glass rounded-xl p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 border border-transparent hover:border-accent hover:border-opacity-30"
                 >
                   <div className="mb-4">
                     <h3 className="text-lg font-semibold text-primary mb-2">
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                           alert("Failed to accept invitation");
                         }
                       }}
-                      className="flex-1 btn-primary px-4 py-2 rounded-lg font-medium transition-colors"
+                      className="flex-1 btn-primary px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                     >
                       Accept
                     </button>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
                           alert("Failed to decline invitation");
                         }
                       }}
-                      className="flex-1 glass text-secondary px-4 py-2 rounded-lg font-medium transition-colors"
+                      className="flex-1 glass text-secondary px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-accent hover:bg-opacity-20 hover:text-primary shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                     >
                       Decline
                     </button>
@@ -275,13 +275,13 @@ export default function DashboardPage() {
             {/* <NotificationBell /> - Temporarily disabled until friend tables are set up */}
             <a
               href="/friends"
-              className="glass text-primary px-6 py-3 rounded-lg font-semibold hover:bg-accent hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="glass text-primary px-6 py-3 rounded-lg font-semibold hover:bg-accent hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-transparent hover:border-accent hover:border-opacity-30"
             >
               👥 Friends
             </a>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="btn-primary px-6 py-3 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="btn-primary px-6 py-3 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105"
             >
               + Create New Trip
             </button>

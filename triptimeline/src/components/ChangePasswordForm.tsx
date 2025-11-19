@@ -51,7 +51,7 @@ export default function ChangePasswordForm() {
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           placeholder="Enter new password"
           required
         />
@@ -63,14 +63,21 @@ export default function ChangePasswordForm() {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           placeholder="Confirm new password"
           required
         />
       </div>
 
       {message && (
-        <div className={`p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+        <div 
+          className="p-3 rounded-lg text-sm"
+          style={{
+            backgroundColor: message.type === 'success' ? '#fefae0' : '#fefae0',
+            color: message.type === 'success' ? '#819067' : '#0a400c',
+            border: message.type === 'success' ? '1px solid #819067' : '1px solid #0a400c'
+          }}
+        >
           {message.text}
         </div>
       )}
@@ -78,7 +85,7 @@ export default function ChangePasswordForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
+        className="w-full bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
       >
         {isLoading ? 'Changing Password...' : 'Change Password'}
       </button>

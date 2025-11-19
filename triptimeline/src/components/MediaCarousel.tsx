@@ -73,10 +73,10 @@ export default function MediaCarousel({
   };
 
   return (
-    <div className="relative w-full bg-gray-900 rounded-lg overflow-hidden">
+    <div className="relative w-full rounded-lg overflow-hidden" style={{backgroundColor: '#0A400C'}}>
       {/* Main Image/Video */}
       <div
-        className="relative w-full aspect-video bg-black"
+        className="relative w-full aspect-video" style={{backgroundColor: '#0A400C'}}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -120,7 +120,10 @@ export default function MediaCarousel({
           <button
             onClick={handleDelete}
             disabled={isDeleting}
-            className="absolute top-4 left-4 bg-red-500/80 hover:bg-red-600 text-white p-2 rounded-full transition-all z-10 disabled:opacity-50"
+            className="absolute top-4 left-4 text-white p-2 rounded-full transition-all z-10 disabled:opacity-50"
+            style={{backgroundColor: 'rgba(10, 64, 12, 0.8)'}}
+            onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'rgba(129, 144, 103, 0.9)'}
+            onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'rgba(10, 64, 12, 0.8)'}
             title="Delete this photo/video"
           >
             🗑️
@@ -130,7 +133,7 @@ export default function MediaCarousel({
 
       {/* Thumbnail Strip */}
       {totalMedia > 1 && (
-        <div className="flex gap-2 p-3 bg-gray-800 overflow-x-auto">
+        <div className="flex gap-2 p-3 overflow-x-auto" style={{backgroundColor: '#819067'}}>
           {media.map((item, index) => (
             <button
               key={item.id}
@@ -148,8 +151,8 @@ export default function MediaCarousel({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-                  <span className="text-white text-xl">▶</span>
+                <div className="w-full h-full flex items-center justify-center" style={{backgroundColor: '#B1AB86'}}>
+                  <span className="text-xl" style={{color: '#0A400C'}}>▶</span>
                 </div>
               )}
             </button>

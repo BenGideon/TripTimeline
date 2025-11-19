@@ -11,6 +11,8 @@ __turbopack_context__.s([
     ()=>addPackingItem,
     "createTrip",
     ()=>createTrip,
+    "deleteAccommodation",
+    ()=>deleteAccommodation,
     "deleteActivity",
     ()=>deleteActivity,
     "deleteExpense",
@@ -21,14 +23,20 @@ __turbopack_context__.s([
     ()=>deleteTrip,
     "deleteTripDay",
     ()=>deleteTripDay,
+    "getAccommodationsForTrip",
+    ()=>getAccommodationsForTrip,
     "getMediaForDay",
     ()=>getMediaForDay,
     "getTrip",
     ()=>getTrip,
     "getUserTrips",
     ()=>getUserTrips,
+    "saveAccommodation",
+    ()=>saveAccommodation,
     "savePackingList",
     ()=>savePackingList,
+    "updateAccommodation",
+    ()=>updateAccommodation,
     "updateActivity",
     ()=>updateActivity,
     "updateTrip",
@@ -537,6 +545,98 @@ async function uploadTripCoverImage(tripId, file) {
         throw new Error(`Failed to save cover image: ${dbError.message}`);
     }
     return coverImageUrl;
+}
+async function saveAccommodation(tripId, dayIndex, accommodation) {
+    console.log('saveAccommodation called with:', {
+        tripId,
+        dayIndex,
+        accommodation
+    });
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+    // Get the trip day
+    console.log('Looking for trip_day with tripId:', tripId, 'dayIndex:', dayIndex);
+    const { data: tripDay, error: findError } = await supabase.from('trip_days').select('*').eq('trip_id', tripId).eq('day_index', dayIndex).single();
+    console.log('Trip day query result:', {
+        tripDay,
+        findError
+    });
+    if (findError || !tripDay) {
+        console.error('Trip day not found:', findError);
+        throw new Error(`Trip day not found: ${findError?.message || 'No matching day'}`);
+    }
+    // Save accommodation to database
+    const accommodationData = {
+        trip_day_id: tripDay.id,
+        name: accommodation.name,
+        type: accommodation.type,
+        address: accommodation.address,
+        check_in: accommodation.checkIn,
+        check_out: accommodation.checkOut,
+        cost: accommodation.cost,
+        currency: accommodation.currency,
+        rating: accommodation.rating,
+        notes: accommodation.notes,
+        booking_reference: accommodation.bookingReference,
+        contact_info: accommodation.contactInfo
+    };
+    console.log('Inserting accommodation data:', accommodationData);
+    const { data: insertResult, error: dbError } = await supabase.from('accommodations').insert(accommodationData).select();
+    console.log('Insert result:', {
+        insertResult,
+        dbError
+    });
+    if (dbError) {
+        console.error('Database insert error:', dbError);
+        throw new Error(`Failed to save accommodation: ${dbError.message}`);
+    }
+    console.log('Accommodation saved successfully to database');
+}
+async function updateAccommodation(accommodationId, accommodation) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+    const { error: dbError } = await supabase.from('accommodations').update({
+        name: accommodation.name,
+        type: accommodation.type,
+        address: accommodation.address,
+        check_in: accommodation.checkIn,
+        check_out: accommodation.checkOut,
+        cost: accommodation.cost,
+        currency: accommodation.currency,
+        rating: accommodation.rating,
+        notes: accommodation.notes,
+        booking_reference: accommodation.bookingReference,
+        contact_info: accommodation.contactInfo
+    }).eq('id', accommodationId);
+    if (dbError) {
+        throw new Error(`Failed to update accommodation: ${dbError.message}`);
+    }
+}
+async function deleteAccommodation(accommodationId) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+    const { error: dbError } = await supabase.from('accommodations').delete().eq('id', accommodationId);
+    if (dbError) {
+        throw new Error(`Failed to delete accommodation: ${dbError.message}`);
+    }
+}
+async function getAccommodationsForTrip(tripId) {
+    console.log('getAccommodationsForTrip called with tripId:', tripId);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+    const { data: accommodations, error } = await supabase.from('accommodations').select(`
+      *,
+      trip_days!inner(day_index, trip_id)
+    `).eq('trip_days.trip_id', tripId);
+    console.log('getAccommodationsForTrip result:', {
+        accommodations,
+        error
+    });
+    if (error) {
+        console.error('Error fetching accommodations:', error);
+        throw new Error(`Failed to fetch accommodations: ${error.message}`);
+    }
+    return accommodations || [];
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);

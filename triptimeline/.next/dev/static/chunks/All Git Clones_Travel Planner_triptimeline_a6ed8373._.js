@@ -293,7 +293,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__
 var __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/friend-service.ts [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
-'use client';
+"use client";
 ;
 ;
 ;
@@ -305,13 +305,13 @@ function FriendsPage() {
     const [friends, setFriends] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [friendRequests, setFriendRequests] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [searchResults, setSearchResults] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [searchQuery, setSearchQuery] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
-    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('friends');
+    const [searchQuery, setSearchQuery] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("friends");
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FriendsPage.useEffect": ()=>{
             if (!loading && !user) {
-                router.push('/auth/login');
+                router.push("/auth/login");
             }
         }
     }["FriendsPage.useEffect"], [
@@ -337,7 +337,7 @@ function FriendsPage() {
             setFriends(friendsData);
             setFriendRequests(requestsData);
         } catch (error) {
-            console.error('Error loading friends data:', error);
+            console.error("Error loading friends data:", error);
         } finally{
             setIsLoading(false);
         }
@@ -349,7 +349,7 @@ function FriendsPage() {
                 const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["searchUsers"])(query);
                 setSearchResults(results);
             } catch (error) {
-                console.error('Error searching users:', error);
+                console.error("Error searching users:", error);
             }
         } else {
             setSearchResults([]);
@@ -359,13 +359,13 @@ function FriendsPage() {
         try {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendFriendRequest"])(userId);
             setSearchResults(searchResults.filter((user)=>user.id !== userId));
-            alert('Friend request sent!');
+            alert("Friend request sent!");
         } catch (error) {
-            console.error('Error sending friend request:', error);
-            if (error?.code === 'FRIEND_REQUEST_ALREADY_EXISTS') {
-                alert('Friend request already sent. Wait for them to respond.');
+            console.error("Error sending friend request:", error);
+            if (error?.code === "FRIEND_REQUEST_ALREADY_EXISTS") {
+                alert("Friend request already sent. Wait for them to respond.");
             } else {
-                alert('Failed to send friend request');
+                alert("Failed to send friend request");
             }
         }
     };
@@ -374,8 +374,8 @@ function FriendsPage() {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["acceptFriendRequest"])(requestId);
             await loadData();
         } catch (error) {
-            console.error('Error accepting friend request:', error);
-            alert('Failed to accept friend request');
+            console.error("Error accepting friend request:", error);
+            alert("Failed to accept friend request");
         }
     };
     const handleDeclineRequest = async (requestId)=>{
@@ -383,18 +383,18 @@ function FriendsPage() {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["declineFriendRequest"])(requestId);
             setFriendRequests(friendRequests.filter((req)=>req.id !== requestId));
         } catch (error) {
-            console.error('Error declining friend request:', error);
-            alert('Failed to decline friend request');
+            console.error("Error declining friend request:", error);
+            alert("Failed to decline friend request");
         }
     };
     const handleRemoveFriend = async (friendId)=>{
-        if (window.confirm('Are you sure you want to remove this friend?')) {
+        if (window.confirm("Are you sure you want to remove this friend?")) {
             try {
                 await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$friend$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["removeFriend"])(friendId);
                 setFriends(friends.filter((friend)=>friend.friend_id !== friendId));
             } catch (error) {
-                console.error('Error removing friend:', error);
-                alert('Failed to remove friend');
+                console.error("Error removing friend:", error);
+                alert("Failed to remove friend");
             }
         }
     };
@@ -408,7 +408,7 @@ function FriendsPage() {
                         className: "animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 119,
+                        lineNumber: 121,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -416,18 +416,18 @@ function FriendsPage() {
                         children: "Loading friends..."
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 120,
+                        lineNumber: 122,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                lineNumber: 118,
+                lineNumber: 120,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-            lineNumber: 117,
+            lineNumber: 119,
             columnNumber: 7
         }, this);
     }
@@ -444,12 +444,12 @@ function FriendsPage() {
                             className: "flex items-center space-x-4",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>router.push('/dashboard'),
+                                    onClick: ()=>router.push("/dashboard"),
                                     className: "text-secondary hover:text-primary transition-colors",
                                     children: "← Back to Dashboard"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 133,
+                                    lineNumber: 135,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -457,28 +457,28 @@ function FriendsPage() {
                                     children: "Friends"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 141,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                            lineNumber: 132,
+                            lineNumber: 134,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 131,
+                        lineNumber: 133,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                    lineNumber: 130,
+                    lineNumber: 132,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                lineNumber: 129,
+                lineNumber: 131,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -488,8 +488,8 @@ function FriendsPage() {
                         className: "flex space-x-1 glass rounded-lg p-1 mb-8",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setActiveTab('friends'),
-                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === 'friends' ? 'btn-primary' : 'text-secondary hover:text-primary'}`,
+                                onClick: ()=>setActiveTab("friends"),
+                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === "friends" ? "btn-primary" : "text-secondary hover:text-primary"}`,
                                 children: [
                                     "Friends (",
                                     friends.length,
@@ -497,12 +497,12 @@ function FriendsPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 148,
+                                lineNumber: 150,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setActiveTab('requests'),
-                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === 'requests' ? 'btn-primary' : 'text-secondary hover:text-primary'}`,
+                                onClick: ()=>setActiveTab("requests"),
+                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === "requests" ? "btn-primary" : "text-secondary hover:text-primary"}`,
                                 children: [
                                     "Requests (",
                                     friendRequests.length,
@@ -510,25 +510,25 @@ function FriendsPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 158,
+                                lineNumber: 160,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setActiveTab('search'),
-                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === 'search' ? 'btn-primary' : 'text-secondary hover:text-primary'}`,
+                                onClick: ()=>setActiveTab("search"),
+                                className: `flex-1 py-2 px-4 rounded-lg font-medium transition-all ${activeTab === "search" ? "btn-primary" : "text-secondary hover:text-primary"}`,
                                 children: "Add Friends"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 168,
+                                lineNumber: 170,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 147,
+                        lineNumber: 149,
                         columnNumber: 9
                     }, this),
-                    activeTab === 'friends' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    activeTab === "friends" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-4",
                         children: friends.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "text-center py-12 glass rounded-xl",
@@ -547,17 +547,17 @@ function FriendsPage() {
                                             d: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                            lineNumber: 187,
+                                            lineNumber: 194,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                        lineNumber: 186,
+                                        lineNumber: 188,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 185,
+                                    lineNumber: 187,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -565,7 +565,7 @@ function FriendsPage() {
                                     children: "No friends yet"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 190,
+                                    lineNumber: 202,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -573,22 +573,22 @@ function FriendsPage() {
                                     children: "Start building your travel network!"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 191,
+                                    lineNumber: 205,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>setActiveTab('search'),
+                                    onClick: ()=>setActiveTab("search"),
                                     className: "btn-primary px-6 py-2 rounded-lg font-medium transition-all",
                                     children: "Add Friends"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 192,
+                                    lineNumber: 208,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                            lineNumber: 184,
+                            lineNumber: 186,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
@@ -601,15 +601,15 @@ function FriendsPage() {
                                                 className: "w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center",
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     className: "text-white font-semibold text-lg",
-                                                    children: friend.friend_profile?.full_name?.charAt(0) || friend.friend_profile?.email?.charAt(0) || '?'
+                                                    children: friend.friend_profile?.full_name?.charAt(0) || friend.friend_profile?.email?.charAt(0) || "?"
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                    lineNumber: 205,
+                                                    lineNumber: 224,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 204,
+                                                lineNumber: 223,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -617,10 +617,10 @@ function FriendsPage() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                         className: "font-semibold text-primary",
-                                                        children: friend.friend_profile?.full_name || 'Unknown User'
+                                                        children: friend.friend_profile?.full_name || "Unknown User"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 210,
+                                                        lineNumber: 231,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -628,13 +628,13 @@ function FriendsPage() {
                                                         children: friend.friend_profile?.email
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 213,
+                                                        lineNumber: 234,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 209,
+                                                lineNumber: 230,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -653,41 +653,41 @@ function FriendsPage() {
                                                         d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 221,
+                                                        lineNumber: 249,
                                                         columnNumber: 27
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 243,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 215,
+                                                lineNumber: 238,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                        lineNumber: 203,
+                                        lineNumber: 222,
                                         columnNumber: 21
                                     }, this)
                                 }, friend.id, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 202,
+                                    lineNumber: 218,
                                     columnNumber: 19
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                            lineNumber: 200,
+                            lineNumber: 216,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 182,
+                        lineNumber: 184,
                         columnNumber: 11
                     }, this),
-                    activeTab === 'requests' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    activeTab === "requests" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-4",
                         children: friendRequests.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "text-center py-12 glass rounded-xl",
@@ -706,17 +706,17 @@ function FriendsPage() {
                                             d: "M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                            lineNumber: 239,
+                                            lineNumber: 277,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                        lineNumber: 238,
+                                        lineNumber: 271,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 237,
+                                    lineNumber: 270,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -724,7 +724,7 @@ function FriendsPage() {
                                     children: "No pending requests"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 242,
+                                    lineNumber: 285,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -732,13 +732,13 @@ function FriendsPage() {
                                     children: "You're all caught up!"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 243,
+                                    lineNumber: 288,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                            lineNumber: 236,
+                            lineNumber: 269,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "space-y-4",
@@ -754,25 +754,25 @@ function FriendsPage() {
                                                         className: "w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center",
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-white font-semibold text-lg",
-                                                            children: request.from_user.full_name?.charAt(0) || request.from_user.email?.charAt(0) || '?'
+                                                            children: request.from_user.full_name?.charAt(0) || request.from_user.email?.charAt(0) || "?"
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                            lineNumber: 252,
+                                                            lineNumber: 300,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 251,
+                                                        lineNumber: 299,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                                 className: "font-semibold text-primary",
-                                                                children: request.from_user.full_name || 'Unknown User'
+                                                                children: request.from_user.full_name || "Unknown User"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                lineNumber: 257,
+                                                                lineNumber: 307,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -780,30 +780,31 @@ function FriendsPage() {
                                                                 children: request.from_user.email
                                                             }, void 0, false, {
                                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                lineNumber: 260,
+                                                                lineNumber: 310,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 className: "text-xs text-secondary text-opacity-60",
                                                                 children: [
-                                                                    "Sent ",
+                                                                    "Sent",
+                                                                    " ",
                                                                     new Date(request.created_at).toLocaleDateString()
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                lineNumber: 261,
+                                                                lineNumber: 313,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 256,
+                                                        lineNumber: 306,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 250,
+                                                lineNumber: 298,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -815,7 +816,7 @@ function FriendsPage() {
                                                         children: "Accept"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 267,
+                                                        lineNumber: 320,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -824,37 +825,37 @@ function FriendsPage() {
                                                         children: "Decline"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                        lineNumber: 273,
+                                                        lineNumber: 326,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 266,
+                                                lineNumber: 319,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                        lineNumber: 249,
+                                        lineNumber: 297,
                                         columnNumber: 21
                                     }, this)
                                 }, request.id, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 248,
+                                    lineNumber: 293,
                                     columnNumber: 19
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                            lineNumber: 246,
+                            lineNumber: 291,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 234,
+                        lineNumber: 267,
                         columnNumber: 11
                     }, this),
-                    activeTab === 'search' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    activeTab === "search" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -870,7 +871,7 @@ function FriendsPage() {
                                             className: "w-full pl-10 pr-4 py-3 border border-secondary border-opacity-20 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-primary placeholder-secondary"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                            lineNumber: 293,
+                                            lineNumber: 346,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -885,23 +886,23 @@ function FriendsPage() {
                                                 d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                lineNumber: 301,
+                                                lineNumber: 359,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                            lineNumber: 300,
+                                            lineNumber: 353,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 292,
+                                    lineNumber: 345,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 291,
+                                lineNumber: 344,
                                 columnNumber: 13
                             }, this),
                             searchResults.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -918,25 +919,25 @@ function FriendsPage() {
                                                             className: "w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-full flex items-center justify-center",
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "text-white font-semibold text-lg",
-                                                                children: user.full_name?.charAt(0) || user.email?.charAt(0) || '?'
+                                                                children: user.full_name?.charAt(0) || user.email?.charAt(0) || "?"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                lineNumber: 313,
+                                                                lineNumber: 376,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                            lineNumber: 312,
+                                                            lineNumber: 375,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                                     className: "font-semibold text-primary",
-                                                                    children: user.full_name || 'Unknown User'
+                                                                    children: user.full_name || "Unknown User"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                    lineNumber: 318,
+                                                                    lineNumber: 383,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -944,7 +945,7 @@ function FriendsPage() {
                                                                     children: user.email
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                    lineNumber: 321,
+                                                                    lineNumber: 386,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 user.username && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -955,19 +956,19 @@ function FriendsPage() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                                    lineNumber: 323,
+                                                                    lineNumber: 388,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                            lineNumber: 317,
+                                                            lineNumber: 382,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                    lineNumber: 311,
+                                                    lineNumber: 374,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -976,23 +977,23 @@ function FriendsPage() {
                                                     children: "Add Friend"
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                                    lineNumber: 327,
+                                                    lineNumber: 394,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                            lineNumber: 310,
+                                            lineNumber: 373,
                                             columnNumber: 21
                                         }, this)
                                     }, user.id, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                        lineNumber: 309,
+                                        lineNumber: 372,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 307,
+                                lineNumber: 370,
                                 columnNumber: 15
                             }, this),
                             searchQuery.length > 2 && searchResults.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1006,34 +1007,34 @@ function FriendsPage() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                    lineNumber: 341,
+                                    lineNumber: 408,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                                lineNumber: 340,
+                                lineNumber: 407,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                        lineNumber: 290,
+                        lineNumber: 343,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-                lineNumber: 145,
+                lineNumber: 147,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/friends/page.tsx",
-        lineNumber: 127,
+        lineNumber: 129,
         columnNumber: 5
     }, this);
 }
-_s(FriendsPage, "enQAtBsW9uhdWMe6jJAPt7cHqiw=", false, function() {
+_s(FriendsPage, "0kjwVetIZn2SgWhP0BDYywJmAY8=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$AuthProvider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"],
         __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]

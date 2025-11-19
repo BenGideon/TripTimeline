@@ -93,8 +93,8 @@ export default function TripCollaborators({ tripId, isOwner, onClose }: TripColl
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'owner': return 'bg-purple-100 text-purple-800';
-      case 'editor': return 'bg-blue-100 text-blue-800';
+      case 'owner': return 'bg-primary bg-opacity-10 text-primary';
+      case 'editor': return 'bg-secondary bg-opacity-10 text-secondary';
       case 'viewer': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -105,7 +105,7 @@ export default function TripCollaborators({ tripId, isOwner, onClose }: TripColl
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white rounded-2xl p-6 w-full max-w-2xl mx-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-gray-600">Loading collaborators...</p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function TripCollaborators({ tripId, isOwner, onClose }: TripColl
           <div className="mb-6">
             <button
               onClick={() => setShowInviteModal(true)}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all"
+              className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-all"
             >
               + Invite Friends
             </button>
@@ -157,7 +157,7 @@ export default function TripCollaborators({ tripId, isOwner, onClose }: TripColl
             collaborators.map((collaborator) => (
               <div key={collaborator.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                 <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
                     <span className="text-white font-semibold text-sm">
                       {collaborator.user_profile?.full_name?.charAt(0) || 
                        collaborator.user_profile?.email?.charAt(0) || '?'}
@@ -192,7 +192,10 @@ export default function TripCollaborators({ tripId, isOwner, onClose }: TripColl
                   {isOwner && collaborator.role !== 'owner' && (
                     <button
                       onClick={() => handleRemoveCollaborator(collaborator.user_id)}
-                      className="text-red-500 hover:text-red-700 p-1 rounded transition-colors"
+                      className="p-1 rounded transition-colors"
+                      style={{color: '#b1ab86'}}
+                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0a400c'}
+                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#b1ab86'}
                       title="Remove collaborator"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

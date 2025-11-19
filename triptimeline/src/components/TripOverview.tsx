@@ -137,7 +137,7 @@ export default function TripOverview({
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setShowCollaborators(true)}
-                  className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                  className="p-2 text-gray-400 hover:text-primary hover:bg-accent hover:bg-opacity-10 rounded-xl transition-colors"
                   title="Manage collaborators"
                 >
                   <svg
@@ -156,7 +156,7 @@ export default function TripOverview({
                 </button>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-colors"
+                  className="p-2 text-gray-400 hover:text-primary hover:bg-accent hover:bg-opacity-10 rounded-xl transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -177,19 +177,19 @@ export default function TripOverview({
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-primary">
                   {duration}
                 </div>
                 <div className="text-sm text-gray-600">Days</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-secondary">
                   {trip.travelers}
                 </div>
                 <div className="text-sm text-gray-600">Travelers</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold" style={{color: '#819067'}}>
                   {format(parseISO(trip.start_date), "EEE, MMM d")}
                 </div>
                 <div className="text-sm text-gray-600">Start Date</div>
@@ -222,7 +222,7 @@ export default function TripOverview({
                 onClick={() =>
                   document.getElementById("cover-image-input")?.click()
                 }
-                className="absolute bottom-2 right-2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors"
+                className="absolute bottom-2 right-2 bg-primary text-white p-2 rounded-full hover:opacity-90 transition-colors"
                 title="Change cover image"
               >
                 <svg
@@ -242,14 +242,14 @@ export default function TripOverview({
             </div>
           ) : (
             <div
-              className="flex-1 w-full h-48 bg-gradient-to-br from-purple-200 to-pink-200 rounded-xl flex items-center justify-center cursor-pointer hover:from-purple-300 hover:to-pink-300 transition-colors"
+              className="flex-1 w-full h-48 bg-gradient-to-br from-accent to-secondary rounded-xl flex items-center justify-center cursor-pointer hover:opacity-90 transition-colors"
               onClick={() =>
                 document.getElementById("cover-image-input")?.click()
               }
             >
               <div className="text-center">
                 <svg
-                  className="w-12 h-12 text-purple-600 mx-auto mb-2"
+                  className="w-12 h-12 text-primary mx-auto mb-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -261,7 +261,7 @@ export default function TripOverview({
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <p className="text-purple-700 font-medium">
+                <p className="text-primary font-medium">
                   Click to upload cover image
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function TripOverview({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">Budget</h3>
             <div
-              className={`px-3 py-1 rounded-full text-xs font-medium ${budgetStatus.bg} ${budgetStatus.color}`}
+              className="px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-primary border-2 border-primary shadow-lg backdrop-blur-sm"
             >
               {budgetStatus.status}
             </div>
@@ -311,32 +311,28 @@ export default function TripOverview({
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-gray-600">Spent</span>
-              <span className="font-semibold text-red-600">
+              <span className="font-semibold" style={{color: '#0a400c'}}>
                 {totalExpenses.toLocaleString()} {trip.currency}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-gray-600">Remaining</span>
               <span
-                className={`font-semibold ${
-                  remainingBudget >= 0 ? "text-green-600" : "text-red-600"
-                }`}
+                className="font-semibold"
+                style={{color: remainingBudget >= 0 ? '#819067' : '#0a400c'}}
               >
                 {remainingBudget.toLocaleString()} {trip.currency}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
               <div
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  totalExpenses > (trip.budget || 0)
-                    ? "bg-red-500"
-                    : "bg-gradient-to-r from-green-500 to-emerald-500"
-                }`}
+                className="h-2 rounded-full transition-all duration-300"
                 style={{
+                  backgroundColor: totalExpenses > (trip.budget || 0) ? '#0a400c' : '#819067',
                   width: `${Math.min(
                     (totalExpenses / (trip.budget || 1)) * 100,
                     100
-                  )}%`,
+                  )}%`
                 }}
               ></div>
             </div>
@@ -350,13 +346,13 @@ export default function TripOverview({
             <span className="text-2xl">🧳</span>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">
+            <div className="text-3xl font-bold text-primary mb-2">
               {packedItems}/{totalItems}
             </div>
             <div className="text-sm text-gray-600 mb-3">Items Packed</div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full transition-all duration-300"
                 style={{
                   width: `${
                     totalItems > 0 ? (packedItems / totalItems) * 100 : 0
@@ -380,13 +376,13 @@ export default function TripOverview({
             <span className="text-2xl">🗓️</span>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">
+            <div className="text-3xl font-bold text-secondary mb-2">
               {completedActivities}/{totalActivities}
             </div>
             <div className="text-sm text-gray-600 mb-3">Completed</div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-secondary to-accent h-2 rounded-full transition-all duration-300"
                 style={{
                   width: `${
                     totalActivities > 0

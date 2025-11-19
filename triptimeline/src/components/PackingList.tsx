@@ -20,13 +20,13 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
   const [filter, setFilter] = useState<'all' | 'packed' | 'unpacked' | 'essential'>('all');
 
   const categories = [
-    { id: 'clothing', name: 'Clothing', icon: '👕', color: 'bg-blue-100 text-blue-800' },
-    { id: 'electronics', name: 'Electronics', icon: '📱', color: 'bg-purple-100 text-purple-800' },
-    { id: 'toiletries', name: 'Toiletries', icon: '🧴', color: 'bg-green-100 text-green-800' },
-    { id: 'documents', name: 'Documents', icon: '📄', color: 'bg-yellow-100 text-yellow-800' },
-    { id: 'medications', name: 'Medications', icon: '💊', color: 'bg-red-100 text-red-800' },
-    { id: 'accessories', name: 'Accessories', icon: '👜', color: 'bg-pink-100 text-pink-800' },
-    { id: 'other', name: 'Other', icon: '📦', color: 'bg-gray-100 text-gray-800' },
+    { id: 'clothing', name: 'Clothing', icon: '👕', color: 'text-primary', bgColor: '#fefae0' },
+    { id: 'electronics', name: 'Electronics', icon: '📱', color: 'text-secondary', bgColor: '#fefae0' },
+    { id: 'toiletries', name: 'Toiletries', icon: '🧴', color: 'text-accent', bgColor: '#fefae0' },
+    { id: 'documents', name: 'Documents', icon: '📄', color: 'text-primary', bgColor: '#b1ab86' },
+    { id: 'medications', name: 'Medications', icon: '💊', color: 'text-secondary', bgColor: '#b1ab86' },
+    { id: 'accessories', name: 'Accessories', icon: '👜', color: 'text-accent', bgColor: '#819067' },
+    { id: 'other', name: 'Other', icon: '📦', color: 'text-primary', bgColor: '#819067' },
   ];
 
   const getCategoryInfo = (categoryId: string) => 
@@ -87,7 +87,11 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
           </div>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="btn-primary px-6 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 border-2 border-primary hover:border-secondary"
+            style={{
+              background: 'linear-gradient(to right, #0A400C, #819067)',
+              color: '#FEFAE0'
+            }}
           >
             + Add Item
           </button>
@@ -99,18 +103,18 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
             <span className="text-sm font-medium text-gray-700">
               Progress: {packedCount}/{totalCount} items packed
             </span>
-            <span className="text-sm font-medium text-purple-600">
+            <span className="text-sm font-medium text-primary">
               {totalCount > 0 ? Math.round((packedCount / totalCount) * 100) : 0}%
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
-              className="bg-gradient-to-r from-purple-500 to-blue-500 h-3 rounded-full transition-all duration-500"
+              className="bg-primary h-3 rounded-full transition-all duration-300"
               style={{ width: `${totalCount > 0 ? (packedCount / totalCount) * 100 : 0}%` }}
             ></div>
           </div>
           {essentialCount > 0 && (
-            <p className="text-sm text-red-600 mt-2">
+            <p className="text-sm mt-2" style={{color: '#0a400c'}}>
               ⚠️ {essentialCount} essential item{essentialCount > 1 ? 's' : ''} still need{essentialCount === 1 ? 's' : ''} to be packed
             </p>
           )}
@@ -129,7 +133,7 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
               onClick={() => setFilter(filterOption.id as any)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                 filter === filterOption.id
-                  ? 'bg-purple-600 text-white shadow-lg'
+                  ? 'bg-primary text-white shadow-lg'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -161,13 +165,13 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                 value={newItem.name}
                 onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                 placeholder="Item name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
 
               <select
                 value={newItem.category}
                 onChange={(e) => setNewItem({ ...newItem, category: e.target.value as PackingItem['category'] })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 {categories.map(category => (
                   <option key={category.id} value={category.id}>
@@ -182,7 +186,7 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                 onChange={(e) => setNewItem({ ...newItem, quantity: Math.max(1, parseInt(e.target.value) || 1) })}
                 placeholder="Quantity"
                 min="1"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
 
               <textarea
@@ -190,7 +194,7 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                 onChange={(e) => setNewItem({ ...newItem, notes: e.target.value })}
                 placeholder="Notes (optional)"
                 rows={2}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
               />
 
               <label className="flex items-center space-x-3">
@@ -198,7 +202,7 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                   type="checkbox"
                   checked={newItem.essential}
                   onChange={(e) => setNewItem({ ...newItem, essential: e.target.checked })}
-                  className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                  className="w-5 h-5 text-primary border-secondary border-opacity-30 rounded focus:ring-primary"
                 />
                 <span className="text-sm font-medium text-gray-700">Mark as essential</span>
               </label>
@@ -206,13 +210,13 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={() => setShowAddForm(false)}
-                  className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 border border-secondary border-opacity-30 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={addItem}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-200"
+                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
                 >
                   Add Item
                 </button>
@@ -234,7 +238,14 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">{category.icon}</span>
                   <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${category.color}`}>
+                  <span 
+                    className="px-2 py-1 rounded-full text-xs font-medium"
+                    style={{
+                      backgroundColor: category.bgColor,
+                      color: category.color === 'text-primary' ? '#0a400c' : 
+                             category.color === 'text-secondary' ? '#819067' : '#b1ab86'
+                    }}
+                  >
                     {items.filter(item => item.packed).length}/{items.length}
                   </span>
                 </div>
@@ -246,20 +257,28 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                     key={item.id}
                     className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 ${
                       item.packed
-                        ? 'bg-green-50 border-green-200 opacity-75'
+                        ? 'opacity-75'
                         : item.essential
-                        ? 'bg-red-50 border-red-200'
-                        : 'bg-gray-50 border-gray-200 hover:border-purple-300'
+                        ? 'border-primary'
+                        : ''
                     }`}
+                    style={{
+                      backgroundColor: item.packed ? '#b1ab86' : item.essential ? '#fefae0' : '#fefae0',
+                      borderColor: item.packed ? '#819067' : item.essential ? '#0a400c' : '#819067'
+                    }}
                   >
                     <div className="flex items-center space-x-4">
                       <button
                         onClick={() => togglePacked(item.id)}
                         className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                           item.packed
-                            ? 'bg-green-500 border-green-500 text-white'
-                            : 'border-gray-300 hover:border-purple-500'
+                            ? 'text-white'
+                            : 'hover:border-secondary'
                         }`}
+                        style={{
+                          backgroundColor: item.packed ? '#819067' : 'transparent',
+                          borderColor: item.packed ? '#819067' : '#B1AB86'
+                        }}
                       >
                         {item.packed && (
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,12 +293,12 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
                             {item.name}
                           </span>
                           {item.essential && (
-                            <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
+                            <span className="px-2 py-1 text-xs font-medium rounded-full" style={{backgroundColor: '#b1ab86', color: '#0a400c'}}>
                               Essential
                             </span>
                           )}
                           {item.quantity > 1 && (
-                            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                            <span className="px-2 py-1 text-xs font-medium rounded-full" style={{backgroundColor: '#FEFAE0', color: '#819067'}}>
                               x{item.quantity}
                             </span>
                           )}
@@ -292,7 +311,16 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
 
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 rounded-lg transition-colors"
+                      style={{color: '#b1ab86'}}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLElement).style.color = '#0a400c';
+                        (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLElement).style.color = '#b1ab86';
+                        (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                      }}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -318,7 +346,7 @@ export default function PackingList({ packingList, onUpdatePackingList }: Packin
           {filter === 'all' && (
             <button
               onClick={() => setShowAddForm(true)}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-200"
+              className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
             >
               Add Your First Item
             </button>

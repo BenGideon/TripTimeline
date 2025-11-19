@@ -122,7 +122,7 @@ export default function NotificationBell() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM11 19H6a2 2 0 01-2-2V7a2 2 0 012-2h5m5 0v6m0 0V7a2 2 0 012 2v4a2 2 0 01-2 2z" />
         </svg>
         {totalNotifications > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" style={{backgroundColor: '#0a400c'}}>
             {totalNotifications > 9 ? '9+' : totalNotifications}
           </span>
         )}
@@ -136,7 +136,7 @@ export default function NotificationBell() {
 
           {isLoading ? (
             <div className="px-4 py-8 text-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600 mx-auto mb-2"></div>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
               <p className="text-sm text-gray-600">Loading...</p>
             </div>
           ) : totalNotifications === 0 ? (
@@ -152,7 +152,7 @@ export default function NotificationBell() {
               {friendRequests.map((request) => (
                 <div key={request.id} className="px-4 py-3 border-b border-gray-50 hover:bg-gray-50">
                   <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-semibold text-xs">
                         {request.from_user.full_name?.charAt(0) || request.from_user.email?.charAt(0) || '?'}
                       </span>
@@ -187,7 +187,7 @@ export default function NotificationBell() {
               {tripInvitations.map((invitation) => (
                 <div key={invitation.id} className="px-4 py-3 border-b border-gray-50 hover:bg-gray-50">
                   <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-semibold text-xs">
                         {invitation.inviter.full_name?.charAt(0) || invitation.inviter.email?.charAt(0) || '?'}
                       </span>
@@ -203,7 +203,7 @@ export default function NotificationBell() {
                       <div className="flex space-x-2 mt-2">
                         <button
                           onClick={() => handleAcceptTripInvitation(invitation.id)}
-                          className="text-xs bg-purple-600 text-white px-3 py-1 rounded-full hover:bg-purple-700 transition-colors"
+                          className="text-xs bg-primary text-white px-3 py-1 rounded-full hover:opacity-90 transition-colors"
                         >
                           Accept
                         </button>
@@ -225,7 +225,7 @@ export default function NotificationBell() {
             <div className="px-4 py-2 border-t border-gray-100">
               <button
                 onClick={() => window.location.href = '/friends'}
-                className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                className="text-sm text-primary hover:text-secondary font-medium"
               >
                 View all in Friends →
               </button>

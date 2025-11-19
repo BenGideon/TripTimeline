@@ -470,7 +470,7 @@ export default function VerticalItinerary({
       {/* Timeline Container */}
       <div className="relative">
         {/* Vertical Line */}
-        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-400 via-blue-400 to-green-400 rounded-full shadow-sm"></div>
+        <div className="absolute left-8 top-0 bottom-0 w-1 rounded-full shadow-sm" style={{background: 'linear-gradient(to bottom, #0a400c 0%, #819067 50%, #b1ab86 100%)'}}></div>
 
         {/* Timeline Items */}
         <div className="space-y-8">
@@ -481,7 +481,7 @@ export default function VerticalItinerary({
             return (
               <div key={dayIndex} className="relative">
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-5 h-5 bg-white border-4 border-purple-500 rounded-full shadow-lg z-10 hover:scale-110 transition-transform duration-200"></div>
+                <div className="absolute left-6 w-5 h-5 bg-white rounded-full shadow-lg z-10 hover:scale-110 transition-transform duration-200" style={{border: '4px solid #0a400c'}}></div>
 
                 {/* Day Card */}
                 <div className="ml-20">
@@ -502,8 +502,14 @@ export default function VerticalItinerary({
                   >
                     {/* Day Header - Always Visible */}
                     <div
-                      className="p-6 cursor-pointer hover:bg-primary hover:bg-opacity-5 transition-colors"
+                      className="p-6 cursor-pointer transition-all duration-300"
                       onClick={() => toggleDay(dayIndex)}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLElement).style.background = 'linear-gradient(135deg, rgba(10, 64, 12, 0.1) 0%, rgba(129, 144, 103, 0.1) 100%)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLElement).style.background = 'transparent';
+                      }}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
@@ -522,25 +528,45 @@ export default function VerticalItinerary({
                                     if (e.key === "Enter") saveEditingDay();
                                     if (e.key === "Escape") cancelEditingDay();
                                   }}
-                                  className="text-xl font-bold text-gray-900 bg-white border border-purple-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                  className="text-xl font-bold text-gray-900 bg-white rounded-lg px-3 py-1 focus:outline-none"
+                                  style={{
+                                    border: '1px solid #819067'
+                                  }}
+                                  onFocus={(e) => (e.target as HTMLElement).style.boxShadow = '0 0 0 2px #0a400c'}
+                                  onBlur={(e) => (e.target as HTMLElement).style.boxShadow = 'none'}
                                   autoFocus
                                 />
                                 <button
                                   onClick={saveEditingDay}
-                                  className="text-green-600 hover:text-green-700 p-1"
+                                  className="p-1 transition-colors"
+                                  style={{color: '#819067'}}
+                                  onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0a400c'}
+                                  onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#819067'}
                                 >
                                   ✓
                                 </button>
                                 <button
                                   onClick={cancelEditingDay}
-                                  className="text-red-600 hover:text-red-700 p-1"
+                                  className="p-1 transition-colors"
+                                  style={{color: '#b1ab86'}}
+                                  onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0a400c'}
+                                  onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#b1ab86'}
                                 >
                                   ✕
                                 </button>
                               </div>
                             ) : (
                               <h3
-                                className="text-xl font-bold text-gray-900 flex items-center cursor-pointer hover:text-purple-600 transition-colors group"
+                                className="text-xl font-bold flex items-center cursor-pointer transition-all duration-200 group bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-md border border-primary border-opacity-30 hover:shadow-lg hover:scale-105"
+                                style={{color: '#0a400c'}}
+                                onMouseEnter={(e) => {
+                                  (e.target as HTMLElement).style.color = '#819067';
+                                  (e.target as HTMLElement).style.borderColor = '#819067';
+                                }}
+                                onMouseLeave={(e) => {
+                                  (e.target as HTMLElement).style.color = '#0a400c';
+                                  (e.target as HTMLElement).style.borderColor = 'rgba(10, 64, 12, 0.3)';
+                                }}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   const currentTitle = getDayTitle(day);
@@ -552,12 +578,12 @@ export default function VerticalItinerary({
                                 }}
                               >
                                 📍 {getDayTitle(day)}
-                                <span className="ml-2 opacity-0 group-hover:opacity-100 text-sm text-purple-500 transition-opacity">
+                                <span className="ml-2 opacity-0 group-hover:opacity-100 text-sm transition-opacity" style={{color: '#819067'}}>
                                   ✏️
                                 </span>
                               </h3>
                             )}
-                            <p className="text-gray-600 text-sm">
+                            <p className="text-sm font-medium bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg shadow-sm border border-secondary border-opacity-30" style={{color: '#819067'}}>
                               {format(parseISO(day.date), "EEEE, MMMM d, yyyy")}
                             </p>
                           </div>
@@ -566,14 +592,14 @@ export default function VerticalItinerary({
                         <div className="flex items-center space-x-4">
                           {/* Activity Count */}
                           <div className="flex items-center space-x-2">
-                            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            <span className="px-3 py-1 text-sm font-medium rounded-full" style={{backgroundColor: '#b1ab86', color: '#0a400c'}}>
                               {day.activities.length}{" "}
                               {day.activities.length === 1
                                 ? "Activity"
                                 : "Activities"}
                             </span>
                             {day.accommodation && (
-                              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                              <span className="px-3 py-1 text-sm font-medium rounded-full" style={{backgroundColor: '#819067', color: '#fefae0'}}>
                                 🏨 Hotel
                               </span>
                             )}
@@ -592,7 +618,16 @@ export default function VerticalItinerary({
                                     onDeleteDay(dayIndex);
                                   }
                                 }}
-                                className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
+                                className="p-2 rounded-full transition-colors"
+                                style={{color: '#b1ab86'}}
+                                onMouseEnter={(e) => {
+                                  (e.target as HTMLElement).style.color = '#0a400c';
+                                  (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                                }}
+                                onMouseLeave={(e) => {
+                                  (e.target as HTMLElement).style.color = '#b1ab86';
+                                  (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                                }}
                                 title="Delete Day"
                               >
                                 🗑️
@@ -632,20 +667,31 @@ export default function VerticalItinerary({
                                   saveEditingDay();
                                 if (e.key === "Escape") cancelEditingDay();
                               }}
-                              className="flex-1 px-3 py-2 text-gray-700 bg-white border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                              className="flex-1 px-3 py-2 text-gray-700 bg-white rounded-lg focus:outline-none"
+                              style={{
+                                border: '1px solid #819067'
+                              }}
+                              onFocus={(e) => (e.target as HTMLElement).style.boxShadow = '0 0 0 2px #0a400c'}
+                              onBlur={(e) => (e.target as HTMLElement).style.boxShadow = 'none'}
                               rows={2}
                               autoFocus
                             />
                             <div className="flex space-x-1 pt-2">
                               <button
                                 onClick={saveEditingDay}
-                                className="text-green-600 hover:text-green-700 p-1"
+                                className="p-1 transition-colors"
+                                style={{color: '#819067'}}
+                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0a400c'}
+                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#819067'}
                               >
                                 ✓
                               </button>
                               <button
                                 onClick={cancelEditingDay}
-                                className="text-red-600 hover:text-red-700 p-1"
+                                className="p-1 transition-colors"
+                                style={{color: '#b1ab86'}}
+                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0a400c'}
+                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#b1ab86'}
                               >
                                 ✕
                               </button>
@@ -653,7 +699,16 @@ export default function VerticalItinerary({
                           </div>
                         ) : (
                           <p
-                            className="text-gray-700 leading-relaxed cursor-pointer hover:text-purple-600 transition-colors group"
+                            className="leading-relaxed cursor-pointer transition-all duration-200 group bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md border border-accent border-opacity-30 hover:shadow-lg hover:scale-105"
+                            style={{color: '#0a400c'}}
+                            onMouseEnter={(e) => {
+                              (e.target as HTMLElement).style.color = '#819067';
+                              (e.target as HTMLElement).style.borderColor = '#819067';
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.target as HTMLElement).style.color = '#0a400c';
+                              (e.target as HTMLElement).style.borderColor = 'rgba(177, 171, 134, 0.3)';
+                            }}
                             onClick={(e) => {
                               e.stopPropagation();
                               startEditingDay(
@@ -664,7 +719,7 @@ export default function VerticalItinerary({
                             }}
                           >
                             {getDayDescription(day)}
-                            <span className="ml-2 opacity-0 group-hover:opacity-100 text-sm text-purple-500 transition-opacity">
+                            <span className="ml-2 opacity-0 group-hover:opacity-100 text-sm transition-opacity" style={{color: '#819067'}}>
                               ✏️
                             </span>
                           </p>
@@ -711,7 +766,7 @@ export default function VerticalItinerary({
                             />
                           </div>
                         ) : (
-                          <div className="h-64 bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 relative overflow-hidden">
+                          <div className="h-64 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #0a400c 0%, #819067 50%, #b1ab86 100%)'}}>
                             <div className="absolute inset-0 bg-black/20"></div>
                             <div className="absolute inset-0 flex items-center justify-center">
                               <div className="text-center text-white">
@@ -726,7 +781,7 @@ export default function VerticalItinerary({
 
                         {/* Day Notes Section */}
                         {day.notes && (
-                          <div className="p-6 bg-blue-50 border-b border-blue-100">
+                          <div className="p-6 border-b" style={{backgroundColor: '#fefae0', borderColor: '#b1ab86'}}>
                             <h5 className="font-semibold text-gray-900 mb-2 flex items-center">
                               📝 Day Notes
                             </h5>
@@ -737,8 +792,19 @@ export default function VerticalItinerary({
                         )}
 
                         {/* Media Upload Button */}
-                        <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100">
-                          <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-100 transition-colors">
+                        <div className="p-6 border-b" style={{backgroundColor: '#fefae0', borderColor: '#b1ab86'}}>
+                          <label 
+                            className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed rounded-xl cursor-pointer transition-colors"
+                            style={{borderColor: '#819067'}}
+                            onMouseEnter={(e) => {
+                              (e.target as HTMLElement).style.borderColor = '#0a400c';
+                              (e.target as HTMLElement).style.backgroundColor = '#b1ab86';
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.target as HTMLElement).style.borderColor = '#819067';
+                              (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                            }}
+                          >
                             <div className="flex items-center space-x-2">
                               <span className="text-2xl">📸</span>
                               <span className="text-sm font-medium text-gray-700">
@@ -768,7 +834,10 @@ export default function VerticalItinerary({
                             day.activities.map((activity) => (
                               <div
                                 key={activity.id}
-                                className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 transition-colors"
+                                className="border border-gray-200 rounded-xl p-4 transition-colors"
+                                style={{borderColor: '#b1ab86'}}
+                                onMouseEnter={(e) => (e.target as HTMLElement).style.borderColor = '#819067'}
+                                onMouseLeave={(e) => (e.target as HTMLElement).style.borderColor = '#b1ab86'}
                               >
                                 <div className="flex items-start justify-between mb-3">
                                   <div className="flex items-center space-x-3">
@@ -794,7 +863,7 @@ export default function VerticalItinerary({
                                     </span>
                                     {activity.cost !== undefined &&
                                       activity.cost !== null && (
-                                        <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                                        <span className="px-3 py-1 text-xs font-medium rounded-full" style={{backgroundColor: '#b1ab86', color: '#0a400c'}}>
                                           ${activity.cost}
                                         </span>
                                       )}
@@ -802,7 +871,16 @@ export default function VerticalItinerary({
                                       onClick={() =>
                                         openActivityModal(dayIndex, activity)
                                       }
-                                      className="p-2 text-purple-500 hover:text-purple-700 hover:bg-purple-50 rounded-full transition-colors"
+                                      className="p-2 rounded-full transition-colors"
+                                      style={{color: '#819067'}}
+                                      onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.color = '#0a400c';
+                                        (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.color = '#819067';
+                                        (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                                      }}
                                       title="Edit Activity"
                                     >
                                       ✏️
@@ -814,7 +892,16 @@ export default function VerticalItinerary({
                                           activity.id
                                         )
                                       }
-                                      className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
+                                      className="p-2 rounded-full transition-colors"
+                                      style={{color: '#b1ab86'}}
+                                      onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.color = '#0a400c';
+                                        (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.color = '#b1ab86';
+                                        (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                                      }}
                                       title="Delete Activity"
                                     >
                                       🗑️
@@ -874,7 +961,7 @@ export default function VerticalItinerary({
 
                           {/* Accommodation Section */}
                           {day.accommodation && (
-                            <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                            <div className="rounded-xl p-4" style={{backgroundColor: '#fefae0', border: '1px solid #819067'}}>
                               <h5 className="font-semibold text-gray-900 mb-2 flex items-center">
                                 🏨 Accommodation
                               </h5>
@@ -900,7 +987,7 @@ export default function VerticalItinerary({
                                       "MMM d"
                                     )}
                                   </span>
-                                  <span className="text-green-600 font-medium">
+                                  <span className="font-medium" style={{color: '#819067'}}>
                                     ${day.accommodation.cost}
                                   </span>
                                 </div>
@@ -911,13 +998,13 @@ export default function VerticalItinerary({
                           {/* Day Stats */}
                           <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
                             <div className="text-center">
-                              <div className="text-lg font-bold text-purple-600">
+                              <div className="text-lg font-bold" style={{color: '#0a400c'}}>
                                 ${day.actualSpent || 0}
                               </div>
                               <div className="text-xs text-gray-600">Spent</div>
                             </div>
                             <div className="text-center">
-                              <div className="text-lg font-bold text-blue-600">
+                              <div className="text-lg font-bold" style={{color: '#819067'}}>
                                 {day.activities.reduce(
                                   (sum, activity) =>
                                     sum + (activity.duration || 0),
@@ -930,7 +1017,7 @@ export default function VerticalItinerary({
                               </div>
                             </div>
                             <div className="text-center">
-                              <div className="text-lg font-bold text-green-600">
+                              <div className="text-lg font-bold" style={{color: '#819067'}}>
                                 {
                                   day.activities.filter(
                                     (activity) => activity.completed
@@ -1001,12 +1088,12 @@ export default function VerticalItinerary({
 
         {/* End of Timeline */}
         <div className="relative ml-20 mt-8">
-          <div className="absolute left-[-52px] w-5 h-5 bg-green-500 border-4 border-white rounded-full shadow-lg"></div>
-          <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-2xl shadow-lg">
+          <div className="absolute left-[-52px] w-5 h-5 border-4 border-white rounded-full shadow-lg" style={{backgroundColor: '#819067'}}></div>
+          <div className="text-white p-6 rounded-2xl shadow-lg" style={{background: 'linear-gradient(135deg, #819067 0%, #0a400c 100%)'}}>
             <div className="text-center">
               <div className="text-4xl mb-4">🎉</div>
               <h3 className="text-xl font-bold mb-2">Journey Complete!</h3>
-              <p className="text-green-100">
+              <p style={{color: '#fefae0', opacity: 0.9}}>
                 What an amazing adventure you've had!
               </p>
             </div>

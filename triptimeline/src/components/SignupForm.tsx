@@ -158,7 +158,7 @@ export default function SignupForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50"
+              className="w-full px-4 py-3 pl-11 border border-secondary border-opacity-30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 bg-white/50"
               placeholder="Create a password (min. 6 characters)"
             />
             <svg
@@ -181,10 +181,11 @@ export default function SignupForm() {
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="rounded-xl p-4" style={{backgroundColor: '#fefae0', border: '1px solid #0a400c'}}>
             <div className="flex items-center">
               <svg
-                className="w-5 h-5 text-red-400 mr-2"
+                className="w-5 h-5 mr-2"
+                style={{color: '#b1ab86'}}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -196,7 +197,7 @@ export default function SignupForm() {
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-red-700 text-sm">{error}</span>
+              <span className="text-sm" style={{color: '#0a400c'}}>{error}</span>
             </div>
           </div>
         )}
@@ -204,7 +205,7 @@ export default function SignupForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-4 rounded-xl font-semibold text-lg hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold text-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           {loading ? (
             <div className="flex items-center justify-center">
@@ -237,11 +238,11 @@ export default function SignupForm() {
 
         <p className="text-xs text-gray-500 text-center">
           By creating an account, you agree to our{" "}
-          <a href="/terms" className="text-purple-600 hover:text-purple-500">
+          <a href="/terms" className="text-primary hover:text-secondary">
             Terms of Service
           </a>{" "}
           and{" "}
-          <a href="/privacy" className="text-purple-600 hover:text-purple-500">
+          <a href="/privacy" className="text-primary hover:text-secondary">
             Privacy Policy
           </a>
         </p>

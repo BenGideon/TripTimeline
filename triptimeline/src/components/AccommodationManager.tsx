@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ItineraryDay, Accommodation } from "@/types/itinerary";
 import { format, differenceInDays, parseISO } from "date-fns";
+import { saveAccommodation, updateAccommodation as updateAccommodationDB, deleteAccommodation as deleteAccommodationDB, getAccommodationsForTrip } from "@/lib/trip-service";
 
 interface AccommodationManagerProps {
+  tripId: string;
   itinerary: ItineraryDay[];
   onUpdateItinerary: (itinerary: ItineraryDay[]) => void;
 }
 
 export default function AccommodationManager({
+  tripId,
   itinerary,
   onUpdateItinerary,
 }: AccommodationManagerProps) {
@@ -27,7 +30,6 @@ export default function AccommodationManager({
     cost: 0,
     currency: "USD",
     rating: 5,
-    amenities: [] as string[],
     notes: "",
     bookingReference: "",
     contactInfo: "",
@@ -42,77 +44,153 @@ export default function AccommodationManager({
     { id: "other", name: "Other", icon: "🏘️" },
   ];
 
-  const commonAmenities = [
-    "WiFi",
-    "Parking",
-    "Pool",
-    "Gym",
-    "Spa",
-    "Restaurant",
-    "Room Service",
-    "Air Conditioning",
-    "Kitchen",
-    "Laundry",
-    "Pet Friendly",
-    "Business Center",
-    "Airport Shuttle",
-    "Breakfast Included",
-    "Beach Access",
-    "Balcony",
-  ];
 
   const getTypeInfo = (type: string) =>
     accommodationTypes.find((t) => t.id === type) || accommodationTypes[0];
 
-  const addAccommodation = () => {
+  // Load accommodations from database when component mounts
+  useEffect(() => {
+    const loadAccommodations = async () => {
+      try {
+        console.log('Loading accommodations for trip:', tripId);
+        const accommodations = await getAccommodationsForTrip(tripId);
+        console.log('Loaded accommodations:', accommodations);
+        
+        if (accommodations.length > 0) {
+          // Merge accommodations with itinerary
+          const updatedItinerary = [...itinerary];
+          
+          accommodations.forEach((acc: any) => {
+            const dayIndex = acc.trip_days.day_index;
+            if (updatedItinerary[dayIndex]) {
+              updatedItinerary[dayIndex] = {
+                ...updatedItinerary[dayIndex],
+                accommodation: {
+                  id: acc.id,
+                  name: acc.name,
+                  type: acc.type,
+                  address: acc.address,
+                  checkIn: acc.check_in,
+                  checkOut: acc.check_out,
+                  cost: acc.cost,
+                  currency: acc.currency,
+                  rating: acc.rating,
+                  notes: acc.notes,
+                  photos: [],
+                  bookingReference: acc.booking_reference,
+                  contactInfo: acc.contact_info
+                }
+              };
+            }
+          });
+          
+          onUpdateItinerary(updatedItinerary);
+        }
+      } catch (error) {
+        console.error('Error loading accommodations:', error);
+      }
+    };
+
+    if (tripId) {
+      loadAccommodations();
+    }
+  }, [tripId]); // Only run when tripId changes
+
+  const addAccommodation = async () => {
+    console.log('addAccommodation called');
+    console.log('newAccommodation:', newAccommodation);
+    
     if (
       !newAccommodation.name.trim() ||
       !newAccommodation.checkIn ||
       !newAccommodation.checkOut
-    )
+    ) {
+      console.log('Validation failed - missing required fields');
+      alert('Please fill in all required fields: Name, Check-in date, and Check-out date');
       return;
-
-    const accommodation: Accommodation = {
-      id: Date.now().toString(),
-      ...newAccommodation,
-      name: newAccommodation.name.trim(),
-      photos: [],
-    };
-
-    // Find the day that matches the check-in date
-    const checkInDate = new Date(newAccommodation.checkIn)
-      .toISOString()
-      .split("T")[0];
-    const dayIndex = itinerary.findIndex((day) => day.date === checkInDate);
-
-    if (dayIndex !== -1) {
-      const updatedItinerary = [...itinerary];
-      updatedItinerary[dayIndex] = {
-        ...updatedItinerary[dayIndex],
-        accommodation,
-      };
-      onUpdateItinerary(updatedItinerary);
     }
 
-    resetForm();
+    try {
+      const accommodation: Accommodation = {
+        id: Date.now().toString(),
+        ...newAccommodation,
+        name: newAccommodation.name.trim(),
+        photos: [],
+      };
+
+      // Find the day that matches the check-in date
+      const checkInDate = new Date(newAccommodation.checkIn)
+        .toISOString()
+        .split("T")[0];
+      console.log('Looking for day with date:', checkInDate);
+      console.log('Available itinerary days:', itinerary.map(d => ({ day: d.day, date: d.date })));
+      
+      const dayIndex = itinerary.findIndex((day) => day.date === checkInDate);
+      console.log('Found dayIndex:', dayIndex);
+
+      if (dayIndex !== -1) {
+        // Save to database first
+        await saveAccommodation(tripId, dayIndex, accommodation);
+        
+        // Then update local state
+        const updatedItinerary = [...itinerary];
+        updatedItinerary[dayIndex] = {
+          ...updatedItinerary[dayIndex],
+          accommodation,
+        };
+        onUpdateItinerary(updatedItinerary);
+        console.log('Accommodation added successfully');
+      } else {
+        console.log('No matching day found for check-in date');
+        alert(`No trip day found for check-in date ${checkInDate}. Please make sure your trip includes this date.`);
+        return;
+      }
+
+      resetForm();
+    } catch (error) {
+      console.error('Error adding accommodation:', error);
+      alert(`Failed to add accommodation: ${error instanceof Error ? error.message : String(error)}`);
+    }
   };
 
-  const updateAccommodation = () => {
+  const updateAccommodation = async () => {
     if (!editingAccommodation) return;
 
-    const updatedItinerary = [...itinerary];
-    updatedItinerary[editingAccommodation.dayIndex] = {
-      ...updatedItinerary[editingAccommodation.dayIndex],
-      accommodation: editingAccommodation.accommodation,
-    };
-    onUpdateItinerary(updatedItinerary);
-    setEditingAccommodation(null);
+    try {
+      // Update in database first
+      await updateAccommodationDB(editingAccommodation.accommodation.id, editingAccommodation.accommodation);
+      
+      // Then update local state
+      const updatedItinerary = [...itinerary];
+      updatedItinerary[editingAccommodation.dayIndex] = {
+        ...updatedItinerary[editingAccommodation.dayIndex],
+        accommodation: {
+          ...editingAccommodation.accommodation,
+          name: editingAccommodation.accommodation.name.trim(),
+        },
+      };
+      onUpdateItinerary(updatedItinerary);
+      setEditingAccommodation(null);
+      setShowAddForm(false);
+    } catch (error) {
+      console.error('Error updating accommodation:', error);
+      alert('Failed to update accommodation. Please try again.');
+    }
   };
 
-  const removeAccommodation = (dayIndex: number) => {
-    const updatedItinerary = [...itinerary];
-    delete updatedItinerary[dayIndex].accommodation;
-    onUpdateItinerary(updatedItinerary);
+  const removeAccommodation = async (dayIndex: number) => {
+    try {
+      // Remove from database first
+      await deleteAccommodationDB(itinerary[dayIndex].accommodation!.id);
+      
+      // Then update local state
+      const updatedItinerary = [...itinerary];
+      delete updatedItinerary[dayIndex].accommodation;
+      onUpdateItinerary(updatedItinerary);
+    } catch (error) {
+      console.error('Error removing accommodation:', error);
+      alert('Failed to remove accommodation. Please try again.');
+    }
   };
 
   const resetForm = () => {
@@ -125,7 +203,6 @@ export default function AccommodationManager({
       cost: 0,
       currency: "USD",
       rating: 5,
-      amenities: [],
       notes: "",
       bookingReference: "",
       contactInfo: "",
@@ -133,28 +210,6 @@ export default function AccommodationManager({
     setShowAddForm(false);
   };
 
-  const toggleAmenity = (amenity: string, isEditing = false) => {
-    if (isEditing && editingAccommodation) {
-      const amenities = editingAccommodation.accommodation.amenities.includes(
-        amenity
-      )
-        ? editingAccommodation.accommodation.amenities.filter(
-            (a) => a !== amenity
-          )
-        : [...editingAccommodation.accommodation.amenities, amenity];
-
-      setEditingAccommodation({
-        ...editingAccommodation,
-        accommodation: { ...editingAccommodation.accommodation, amenities },
-      });
-    } else {
-      const amenities = newAccommodation.amenities.includes(amenity)
-        ? newAccommodation.amenities.filter((a) => a !== amenity)
-        : [...newAccommodation.amenities, amenity];
-
-      setNewAccommodation({ ...newAccommodation, amenities });
-    }
-  };
 
   const accommodationsWithDays = itinerary
     .map((day, index) => ({ ...day, dayIndex: index }))
@@ -177,8 +232,15 @@ export default function AccommodationManager({
             </p>
           </div>
           <button
-            onClick={() => setShowAddForm(true)}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            onClick={() => {
+              console.log('Add Accommodation button clicked');
+              setShowAddForm(true);
+            }}
+            className="btn-primary px-6 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 border-2 border-primary hover:border-secondary"
+            style={{
+              background: 'linear-gradient(to right, #0A400C, #819067)',
+              color: '#FEFAE0'
+            }}
           >
             + Add Accommodation
           </button>
@@ -186,20 +248,20 @@ export default function AccommodationManager({
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-4 bg-blue-50 rounded-xl">
-            <div className="text-2xl font-bold text-blue-600 mb-1">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-accent border-opacity-30">
+            <div className="text-2xl font-bold text-primary mb-1">
               {accommodationsWithDays.length}
             </div>
-            <div className="text-sm text-gray-600">Bookings</div>
+            <div className="text-sm font-semibold text-gray-800">Bookings</div>
           </div>
-          <div className="text-center p-4 bg-green-50 rounded-xl">
-            <div className="text-2xl font-bold text-green-600 mb-1">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-secondary border-opacity-30">
+            <div className="text-2xl font-bold text-secondary mb-1">
               {totalAccommodationCost.toLocaleString()} USD
             </div>
-            <div className="text-sm text-gray-600">Total Cost</div>
+            <div className="text-sm font-semibold text-gray-800">Total Cost</div>
           </div>
-          <div className="text-center p-4 bg-purple-50 rounded-xl">
-            <div className="text-2xl font-bold text-purple-600 mb-1">
+          <div className="text-center p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-primary border-opacity-30">
+            <div className="text-2xl font-bold text-primary mb-1">
               {accommodationsWithDays.reduce((sum, day) => {
                 const accommodation = day.accommodation!;
                 return (
@@ -211,7 +273,7 @@ export default function AccommodationManager({
                 );
               }, 0)}
             </div>
-            <div className="text-sm text-gray-600">Total Nights</div>
+            <div className="text-sm font-semibold text-gray-800">Total Nights</div>
           </div>
         </div>
       </div>
@@ -274,7 +336,7 @@ export default function AccommodationManager({
                         })
                   }
                   placeholder="Accommodation name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
 
                 <select
@@ -297,7 +359,7 @@ export default function AccommodationManager({
                           type: e.target.value as Accommodation["type"],
                         })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   {accommodationTypes.map((type) => (
                     <option key={type.id} value={type.id}>
@@ -329,7 +391,7 @@ export default function AccommodationManager({
                 }
                 placeholder="Address"
                 rows={2}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
               />
 
               {/* Dates and Cost */}
@@ -355,7 +417,7 @@ export default function AccommodationManager({
                           checkIn: e.target.value,
                         })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
 
                 <input
@@ -379,7 +441,7 @@ export default function AccommodationManager({
                           checkOut: e.target.value,
                         })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
 
                 <input
@@ -406,7 +468,7 @@ export default function AccommodationManager({
                   placeholder="Total cost"
                   min="0"
                   step="0.01"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
               </div>
 
@@ -439,7 +501,7 @@ export default function AccommodationManager({
                         (editingAccommodation
                           ? editingAccommodation.accommodation.rating || 0
                           : newAccommodation.rating)
-                          ? "text-yellow-400"
+                          ? "text-accent"
                           : "text-gray-300"
                       }`}
                     >
@@ -449,33 +511,6 @@ export default function AccommodationManager({
                 </div>
               </div>
 
-              {/* Amenities */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Amenities
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {commonAmenities.map((amenity) => (
-                    <label
-                      key={amenity}
-                      className="flex items-center space-x-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={(editingAccommodation
-                          ? editingAccommodation.accommodation.amenities
-                          : newAccommodation.amenities
-                        ).includes(amenity)}
-                        onChange={() =>
-                          toggleAmenity(amenity, !!editingAccommodation)
-                        }
-                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <span className="text-sm text-gray-700">{amenity}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
 
               {/* Additional Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -502,7 +537,7 @@ export default function AccommodationManager({
                         })
                   }
                   placeholder="Booking reference"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
 
                 <input
@@ -527,7 +562,7 @@ export default function AccommodationManager({
                         })
                   }
                   placeholder="Contact info"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
               </div>
 
@@ -553,7 +588,7 @@ export default function AccommodationManager({
                 }
                 placeholder="Notes"
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
               />
 
               <div className="flex space-x-3 pt-4">
@@ -562,7 +597,7 @@ export default function AccommodationManager({
                     setShowAddForm(false);
                     setEditingAccommodation(null);
                   }}
-                  className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 border border-secondary border-opacity-30 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -572,7 +607,7 @@ export default function AccommodationManager({
                       ? updateAccommodation
                       : addAccommodation
                   }
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
                 >
                   {editingAccommodation ? "Update" : "Add"} Accommodation
                 </button>
@@ -610,7 +645,7 @@ export default function AccommodationManager({
                       </p>
 
                       <div className="flex items-center space-x-4 mb-3">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                        <span className="px-3 py-1 bg-white/90 text-secondary border-2 border-secondary border-opacity-30 text-sm font-bold rounded-full shadow-md backdrop-blur-sm">
                           {typeInfo.name}
                         </span>
                         <div className="flex items-center">
@@ -619,7 +654,7 @@ export default function AccommodationManager({
                               key={i}
                               className={`text-sm ${
                                 i < (accommodation.rating || 0)
-                                  ? "text-yellow-400"
+                                  ? "text-accent"
                                   : "text-gray-300"
                               }`}
                             >
@@ -661,30 +696,6 @@ export default function AccommodationManager({
                         </div>
                       </div>
 
-                      {accommodation.amenities.length > 0 && (
-                        <div className="mt-3">
-                          <span className="text-sm text-gray-600">
-                            Amenities:
-                          </span>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {accommodation.amenities
-                              .slice(0, 6)
-                              .map((amenity) => (
-                                <span
-                                  key={amenity}
-                                  className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                >
-                                  {amenity}
-                                </span>
-                              ))}
-                            {accommodation.amenities.length > 6 && (
-                              <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                                +{accommodation.amenities.length - 6} more
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      )}
 
                       {accommodation.notes && (
                         <p className="text-sm text-gray-600 mt-3">
@@ -702,7 +713,7 @@ export default function AccommodationManager({
                           accommodation,
                         })
                       }
-                      className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 text-gray-400 hover:text-primary hover:bg-accent hover:bg-opacity-10 rounded-lg transition-colors"
                     >
                       <svg
                         className="w-5 h-5"
@@ -720,7 +731,16 @@ export default function AccommodationManager({
                     </button>
                     <button
                       onClick={() => removeAccommodation(day.dayIndex)}
-                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 rounded-lg transition-colors"
+                      style={{color: '#b1ab86'}}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLElement).style.color = '#0a400c';
+                        (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLElement).style.color = '#b1ab86';
+                        (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                      }}
                     >
                       <svg
                         className="w-5 h-5"
@@ -754,7 +774,7 @@ export default function AccommodationManager({
             </p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+              className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
             >
               Add Your First Accommodation
             </button>

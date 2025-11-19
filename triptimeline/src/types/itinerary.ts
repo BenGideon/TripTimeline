@@ -56,7 +56,6 @@ export interface Accommodation {
   cost: number;
   currency: string;
   rating?: number;
-  amenities: string[];
   notes?: string;
   photos?: string[];
   bookingReference?: string;

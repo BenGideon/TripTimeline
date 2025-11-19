@@ -196,24 +196,24 @@ function DashboardHeader({ user }) {
                                                         d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                                        lineNumber: 106,
+                                                        lineNumber: 108,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                                    lineNumber: 100,
+                                                    lineNumber: 102,
                                                     columnNumber: 21
                                                 }, this),
                                                 "Profile Settings"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 98,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                        lineNumber: 95,
+                                        lineNumber: 97,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -234,24 +234,24 @@ function DashboardHeader({ user }) {
                                                         d: "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                                                     }, void 0, false, {
                                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                                        lineNumber: 128,
+                                                        lineNumber: 130,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                                    lineNumber: 122,
+                                                    lineNumber: 124,
                                                     columnNumber: 21
                                                 }, this),
                                                 "Sign Out"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 120,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/DashboardHeader.tsx",
-                                        lineNumber: 117,
+                                        lineNumber: 119,
                                         columnNumber: 17
                                     }, this)
                                 ]
@@ -410,7 +410,12 @@ function ChangePasswordForm() {
                 columnNumber: 7
             }, this),
             message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: `p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`,
+                className: "p-3 rounded-lg text-sm",
+                style: {
+                    backgroundColor: message.type === 'success' ? '#fefae0' : '#fefae0',
+                    color: message.type === 'success' ? '#819067' : '#0a400c',
+                    border: message.type === 'success' ? '1px solid #819067' : '1px solid #0a400c'
+                },
                 children: message.text
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ChangePasswordForm.tsx",
@@ -424,7 +429,7 @@ function ChangePasswordForm() {
                 children: isLoading ? 'Changing Password...' : 'Change Password'
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ChangePasswordForm.tsx",
-                lineNumber: 78,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
@@ -475,19 +480,27 @@ function ProfilePage() {
     ]);
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center",
+            className: "min-h-screen flex items-center justify-center",
+            style: {
+                backgroundColor: '#fefae0'
+            },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "text-center",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"
+                        className: "animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4",
+                        style: {
+                            borderBottomColor: '#0a400c'
+                        }
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
                         lineNumber: 29,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-gray-600",
+                        style: {
+                            color: '#819067'
+                        },
                         children: "Loading profile..."
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
@@ -730,7 +743,19 @@ function ProfilePage() {
                                 className: "border-t border-gray-200 pt-8",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: handleSignOut,
-                                    className: "w-full bg-red-50 text-red-600 px-6 py-3 rounded-xl font-semibold hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200",
+                                    className: "w-full px-6 py-3 rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2",
+                                    style: {
+                                        backgroundColor: '#b1ab86',
+                                        color: '#0a400c'
+                                    },
+                                    onMouseEnter: (e)=>{
+                                        e.target.style.backgroundColor = '#819067';
+                                        e.target.style.color = '#fefae0';
+                                    },
+                                    onMouseLeave: (e)=>{
+                                        e.target.style.backgroundColor = '#b1ab86';
+                                        e.target.style.color = '#0a400c';
+                                    },
                                     children: "Sign Out"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
@@ -756,34 +781,39 @@ function ProfilePage() {
                                 children: "Change Password"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                lineNumber: 165,
+                                lineNumber: 177,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$ChangePasswordForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                lineNumber: 166,
+                                lineNumber: 178,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                        lineNumber: 164,
+                        lineNumber: 176,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "text-center",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: ()=>router.push('/dashboard'),
-                            className: "text-purple-600 hover:text-purple-700 font-medium transition-colors",
+                            className: "font-medium transition-colors",
+                            style: {
+                                color: '#0a400c'
+                            },
+                            onMouseEnter: (e)=>e.target.style.color = '#819067',
+                            onMouseLeave: (e)=>e.target.style.color = '#0a400c',
                             children: "← Back to Dashboard"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                            lineNumber: 171,
+                            lineNumber: 183,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                        lineNumber: 170,
+                        lineNumber: 182,
                         columnNumber: 9
                     }, this)
                 ]

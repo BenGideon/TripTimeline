@@ -17,7 +17,7 @@
 
 /* Force TailwindCSS to process */
 .test-class {
-  color: red;
+  color: #0a400c;
 }
 
 @layer base {
@@ -52,7 +52,7 @@
     background: rgba(254, 250, 224, 0.25);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(8, 64, 12, 0.15);
+    border: 1px solid rgba(10, 64, 12, 0.15);
   }
 
   .glass-subtle {
@@ -76,6 +76,10 @@
 
   .travel-gradient-reverse {
     background: linear-gradient(135deg, #b1ab86 0%, #819067 50%, #0a400c 100%);
+  }
+
+  .subtle-green-gradient {
+    background: linear-gradient(135deg, #0a400c 0%, #0d4f0f 100%);
   }
 
   /* Color utility classes */
@@ -117,13 +121,14 @@
 
   /* Button utilities */
   .btn-primary {
-    background-color: #0a400c;
+    background: linear-gradient(135deg, #0a400c 0%, #0d4f0f 100%);
     color: #fefae0;
     transition: all 0.3s ease;
   }
 
   .btn-primary:hover {
-    background-color: #073308;
+    background-color: #0a400c;
+    opacity: 0.9;
     box-shadow: var(--shadow-medium);
   }
 
@@ -134,7 +139,8 @@
   }
 
   .btn-secondary:hover {
-    background-color: #6a7852;
+    background-color: #819067;
+    opacity: 0.9;
     box-shadow: var(--shadow-medium);
   }
 

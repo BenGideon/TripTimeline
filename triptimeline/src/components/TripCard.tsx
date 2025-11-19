@@ -56,14 +56,14 @@ export default function TripCard({
   const getStatusBadge = () => {
     if (isOngoing) {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary bg-opacity-20 text-secondary border border-secondary border-opacity-30">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-secondary border-2 border-secondary shadow-lg backdrop-blur-sm">
           <div className="w-1.5 h-1.5 bg-secondary rounded-full mr-1.5 animate-pulse"></div>
           Ongoing
         </span>
       );
     } else if (isUpcoming) {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent bg-opacity-20 text-accent border border-accent border-opacity-30">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-accent border-2 border-accent shadow-lg backdrop-blur-sm">
           <svg
             className="w-3 h-3 mr-1"
             fill="none"
@@ -82,7 +82,7 @@ export default function TripCard({
       );
     } else {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-primary border-2 border-primary shadow-lg backdrop-blur-sm">
           <svg
             className="w-3 h-3 mr-1"
             fill="none"
@@ -103,7 +103,7 @@ export default function TripCard({
   };
 
   return (
-    <div className="glass rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group overflow-visible relative">
+    <div className="glass rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 group overflow-visible relative border border-transparent hover:border-primary hover:border-opacity-30">
       {/* Card Header with Cover Image */}
       <div className="h-48 travel-gradient relative overflow-hidden rounded-t-xl">
         {trip.cover_image ? (
@@ -116,7 +116,7 @@ export default function TripCard({
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
           {getStatusBadge()}
-          <button className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors">
+          <button className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 hover:scale-110 transition-all duration-200 shadow-md hover:shadow-lg">
             <svg
               className="w-4 h-4 text-white"
               fill="none"
@@ -133,7 +133,7 @@ export default function TripCard({
           </button>
         </div>
         <div className="absolute bottom-4 left-4 right-4">
-          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-accent transition-colors">
+          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-accent transition-all duration-200">
             {trip.title}
           </h3>
           <div className="flex items-center text-white/90">
@@ -162,7 +162,7 @@ export default function TripCard({
       </div>
 
       {/* Card Content */}
-      <div className="p-6 overflow-hidden">
+      <div className="p-6 overflow-visible">
         {trip.description && (
           <p className="text-secondary text-sm mb-4 line-clamp-2">
             {trip.description}
@@ -220,14 +220,14 @@ export default function TripCard({
         <div className="flex space-x-3">
           <a
             href={`/itinerary/${trip.id}`}
-            className="flex-1 btn-primary py-2.5 px-4 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-center"
+            className="flex-1 btn-primary py-2.5 px-4 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-xl transform hover:-translate-y-1 hover:scale-105 text-center"
           >
             View Itinerary
           </a>
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="p-2.5 bg-accent bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="p-2.5 bg-accent bg-opacity-20 hover:bg-opacity-40 hover:scale-110 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 shadow-sm hover:shadow-md"
             >
               <svg
                 className="w-5 h-5 text-accent"
@@ -245,13 +245,13 @@ export default function TripCard({
             </button>
 
             {showDropdown && (
-              <div className="absolute right-0 top-full mt-2 w-48 glass rounded-lg shadow-md py-1 z-10">
+              <div className="absolute right-0 top-12 w-48 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl border border-primary border-opacity-20 py-2 z-50">
                 <button
                   onClick={() => {
                     setShowDropdown(false);
                     if (onEdit) onEdit(trip.id);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-accent hover:bg-opacity-10 flex items-center"
+                  className="w-full text-left px-4 py-2 text-sm font-medium text-primary hover:bg-accent hover:bg-opacity-20 hover:text-primary transition-all duration-200 flex items-center rounded-md mx-1"
                 >
                   <svg
                     className="w-4 h-4 mr-2"
@@ -274,7 +274,7 @@ export default function TripCard({
                       setShowDropdown(false);
                       onManageCollaborators(trip.id);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-accent hover:bg-opacity-10 flex items-center"
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-primary hover:bg-accent hover:bg-opacity-20 hover:text-primary transition-all duration-200 flex items-center rounded-md mx-1"
                   >
                     <svg
                       className="w-4 h-4 mr-2"
@@ -304,7 +304,7 @@ export default function TripCard({
                         onDelete(trip.id);
                       }
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-accent hover:bg-opacity-10 flex items-center"
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 flex items-center rounded-md mx-1"
                   >
                     <svg
                       className="w-4 h-4 mr-2"

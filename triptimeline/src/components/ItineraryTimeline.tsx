@@ -22,23 +22,23 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
 
   const getActivityCardColor = (day: number, position: 'top' | 'bottom') => {
     const topColors = [
-      'bg-blue-200 border-blue-300 shadow-blue-200/50', // Day 1 - Blue
-      'bg-teal-200 border-teal-300 shadow-teal-200/50', // Day 2 - Teal  
-      'bg-green-200 border-green-300 shadow-green-200/50', // Day 3 - Green
-      'bg-yellow-200 border-yellow-300 shadow-yellow-200/50', // Day 4 - Yellow
-      'bg-pink-200 border-pink-300 shadow-pink-200/50', // Day 5 - Pink
-      'bg-purple-200 border-purple-300 shadow-purple-200/50', // Day 6 - Purple
-      'bg-indigo-200 border-indigo-300 shadow-indigo-200/50', // Day 7 - Indigo
+      'bg-accent bg-opacity-30 border-accent shadow-accent/20', // Day 1
+      'bg-secondary bg-opacity-30 border-secondary shadow-secondary/20', // Day 2
+      'bg-primary bg-opacity-20 border-primary shadow-primary/20', // Day 3
+      'bg-accent bg-opacity-40 border-accent shadow-accent/30', // Day 4
+      'bg-secondary bg-opacity-40 border-secondary shadow-secondary/30', // Day 5
+      'bg-primary bg-opacity-30 border-primary shadow-primary/30', // Day 6
+      'bg-accent bg-opacity-50 border-accent shadow-accent/40', // Day 7
     ];
     
     const bottomColors = [
-      'bg-green-200 border-green-300 shadow-green-200/50', // Day 1 - Green
-      'bg-yellow-200 border-yellow-300 shadow-yellow-200/50', // Day 2 - Yellow
-      'bg-pink-200 border-pink-300 shadow-pink-200/50', // Day 3 - Pink
-      'bg-purple-200 border-purple-300 shadow-purple-200/50', // Day 4 - Purple
-      'bg-indigo-200 border-indigo-300 shadow-indigo-200/50', // Day 5 - Indigo
-      'bg-blue-200 border-blue-300 shadow-blue-200/50', // Day 6 - Blue
-      'bg-teal-200 border-teal-300 shadow-teal-200/50', // Day 7 - Teal
+      'bg-secondary bg-opacity-30 border-secondary shadow-secondary/20', // Day 1
+      'bg-primary bg-opacity-20 border-primary shadow-primary/20', // Day 2
+      'bg-accent bg-opacity-30 border-accent shadow-accent/20', // Day 3
+      'bg-secondary bg-opacity-40 border-secondary shadow-secondary/30', // Day 4
+      'bg-primary bg-opacity-30 border-primary shadow-primary/30', // Day 5
+      'bg-accent bg-opacity-40 border-accent shadow-accent/30', // Day 6
+      'bg-secondary bg-opacity-50 border-secondary shadow-secondary/40', // Day 7
     ];
     
     return position === 'top' ? topColors[(day - 1) % topColors.length] : bottomColors[(day - 1) % bottomColors.length];
@@ -46,26 +46,26 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
 
   const getClipColor = (day: number) => {
     const colors = [
-      'text-blue-500', // Day 1
-      'text-teal-500', // Day 2
-      'text-green-500', // Day 3
-      'text-yellow-500', // Day 4
-      'text-pink-500', // Day 5
-      'text-purple-500', // Day 6
-      'text-indigo-500', // Day 7
+      'text-primary', // Day 1
+      'text-secondary', // Day 2
+      'text-accent', // Day 3
+      'text-primary', // Day 4
+      'text-secondary', // Day 5
+      'text-accent', // Day 6
+      'text-primary', // Day 7
     ];
     return colors[(day - 1) % colors.length];
   };
 
   const getTimelineDotColor = (day: number) => {
     const colors = [
-      'bg-blue-500 border-blue-600', // Day 1
-      'bg-teal-500 border-teal-600', // Day 2
-      'bg-green-500 border-green-600', // Day 3
-      'bg-yellow-500 border-yellow-600', // Day 4
-      'bg-pink-500 border-pink-600', // Day 5
-      'bg-purple-500 border-purple-600', // Day 6
-      'bg-indigo-500 border-indigo-600', // Day 7
+      'bg-primary border-primary', // Day 1
+      'bg-secondary border-secondary', // Day 2
+      'bg-accent border-accent', // Day 3
+      'bg-primary border-primary', // Day 4
+      'bg-secondary border-secondary', // Day 5
+      'bg-accent border-accent', // Day 6
+      'bg-primary border-primary', // Day 7
     ];
     return colors[(day - 1) % colors.length];
   };
@@ -101,9 +101,9 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
   return (
     <div className="relative max-w-6xl mx-auto">
       {/* Timeline Line */}
-      <div className="absolute top-1/2 left-8 right-8 h-1 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300 transform -translate-y-1/2 z-0 rounded-full shadow-sm">
-        <div className="absolute left-0 w-3 h-3 bg-gray-600 transform -translate-y-1/2 -translate-x-1 rotate-45 shadow-md"></div>
-        <div className="absolute right-0 w-0 h-0 border-l-[12px] border-l-gray-600 border-t-[6px] border-b-[6px] border-t-transparent border-b-transparent transform translate-x-2 shadow-md"></div>
+      <div className="absolute top-1/2 left-8 right-8 h-1 bg-gradient-to-r from-secondary via-primary to-secondary transform -translate-y-1/2 z-0 rounded-full shadow-sm">
+        <div className="absolute left-0 w-3 h-3 bg-primary transform -translate-y-1/2 -translate-x-1 rotate-45 shadow-md"></div>
+        <div className="absolute right-0 w-0 h-0 border-l-[12px] border-l-primary border-t-[6px] border-b-[6px] border-t-transparent border-b-transparent transform translate-x-2 shadow-md"></div>
       </div>
 
       {/* Days Container */}
@@ -126,7 +126,7 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                         ${getActivityCardColor(dayData.day, 'top')}
                         border-2 rounded-xl p-4 shadow-lg transform rotate-1 hover:rotate-0 
                         transition-all duration-300 cursor-pointer min-h-[120px] hover:scale-105
-                        hover:shadow-xl relative backdrop-blur-sm
+                        hover:shadow-2xl hover:border-primary relative backdrop-blur-sm
                       `}
                       onClick={() => handleActivityClick(dayIndex, actIndex, activity)}
                     >
@@ -150,13 +150,13 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                           <div className="flex space-x-2 mt-3">
                             <button
                               onClick={handleSaveActivity}
-                              className="flex-1 bg-green-500 text-white text-xs py-1 px-2 rounded-md hover:bg-green-600 transition-colors"
+                              className="flex-1 bg-primary text-white text-xs py-1 px-2 rounded-md hover:bg-secondary transition-colors shadow-sm hover:shadow-md"
                             >
                               Save
                             </button>
                             <button
                               onClick={() => setEditingActivity(null)}
-                              className="flex-1 bg-gray-500 text-white text-xs py-1 px-2 rounded-md hover:bg-gray-600 transition-colors"
+                              className="flex-1 bg-accent text-gray-800 text-xs py-1 px-2 rounded-md hover:bg-secondary hover:text-white transition-colors shadow-sm hover:shadow-md"
                             >
                               Cancel
                             </button>
@@ -185,14 +185,14 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                       ${getActivityCardColor(dayData.day, 'top')}
                       border-2 border-dashed rounded-xl p-4 shadow-lg transform rotate-1 
                       hover:rotate-0 transition-all duration-300 cursor-pointer min-h-[120px]
-                      hover:shadow-xl relative opacity-40 hover:opacity-80 backdrop-blur-sm
+                      hover:shadow-2xl hover:border-primary hover:border-solid relative opacity-40 hover:opacity-90 backdrop-blur-sm hover:scale-105
                     `}
                     onClick={() => handleAddActivity(dayIndex, 'top')}
                   >
                     <div className="text-center flex items-center justify-center h-full">
                       <div>
-                        <div className="text-3xl mb-2 text-gray-500">+</div>
-                        <p className="text-xs text-gray-600 font-medium">
+                        <div className="text-3xl mb-2 text-primary opacity-60 hover:opacity-100 transition-opacity">+</div>
+                        <p className="text-xs text-primary font-medium opacity-60 hover:opacity-100 transition-opacity">
                           Add Activity
                         </p>
                       </div>
@@ -203,18 +203,18 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
             </div>
 
             {/* Day Label Above Timeline */}
-            <div className="mb-3 bg-white/90 backdrop-blur-sm border-2 border-gray-300 rounded-xl px-4 py-2 shadow-lg">
-              <span className="text-sm font-bold text-gray-800 tracking-wide">
+            <div className="mb-3 bg-white/90 backdrop-blur-sm border-2 border-accent rounded-xl px-4 py-2 shadow-lg hover:shadow-xl hover:border-primary transition-all duration-200 hover:scale-105">
+              <span className="text-sm font-bold text-primary tracking-wide">
                 DAY {dayData.day}
               </span>
             </div>
 
             {/* Timeline Dot */}
-            <div className={`w-5 h-5 ${getTimelineDotColor(dayData.day)} rounded-full border-3 border-white shadow-lg z-20 hover:scale-110 transition-transform duration-200`}></div>
+            <div className={`w-5 h-5 ${getTimelineDotColor(dayData.day)} rounded-full border-3 border-white shadow-lg z-20 hover:scale-125 hover:shadow-xl transition-all duration-200 cursor-pointer`}></div>
 
             {/* Day Label Below Timeline */}
-            <div className="mt-3 bg-white/90 backdrop-blur-sm border-2 border-gray-300 rounded-xl px-4 py-2 shadow-lg">
-              <span className="text-sm font-bold text-gray-800 tracking-wide">
+            <div className="mt-3 bg-white/90 backdrop-blur-sm border-2 border-accent rounded-xl px-4 py-2 shadow-lg hover:shadow-xl hover:border-primary transition-all duration-200 hover:scale-105">
+              <span className="text-sm font-bold text-primary tracking-wide">
                 DAY {dayData.day}
               </span>
             </div>
@@ -230,14 +230,14 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                     ${getActivityCardColor(dayData.day, 'bottom')}
                     border-2 border-dashed rounded-xl p-4 shadow-lg transform -rotate-1 
                     hover:rotate-0 transition-all duration-300 cursor-pointer min-h-[120px]
-                    hover:shadow-xl relative opacity-40 hover:opacity-80 backdrop-blur-sm
+                    hover:shadow-2xl hover:border-primary hover:border-solid relative opacity-40 hover:opacity-90 backdrop-blur-sm hover:scale-105
                   `}
                   onClick={() => handleAddActivity(dayIndex, 'bottom')}
                 >
                   <div className="text-center flex items-center justify-center h-full">
                     <div>
-                      <div className="text-3xl mb-2 text-gray-500">+</div>
-                      <p className="text-xs text-gray-600 font-medium">
+                      <div className="text-3xl mb-2 text-primary opacity-60 hover:opacity-100 transition-opacity">+</div>
+                      <p className="text-xs text-primary font-medium opacity-60 hover:opacity-100 transition-opacity">
                         Add Activity
                       </p>
                     </div>
@@ -272,14 +272,14 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                 value={editingTitle}
                 onChange={(e) => setEditingTitle(e.target.value)}
                 placeholder="Activity title (e.g., MORNING)"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm"
               />
               <input
                 type="text"
                 value={editingTime}
                 onChange={(e) => setEditingTime(e.target.value)}
                 placeholder="Time and location (e.g., 10 AM - DUPONT FOREST)"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm"
+                className="w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm"
               />
               <div className="flex space-x-3 pt-4">
                 <button
@@ -290,7 +290,7 @@ export default function ItineraryTimeline({ itinerary, onUpdateActivity }: Itine
                 </button>
                 <button
                   onClick={handleSaveActivity}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   Add Activity
                 </button>
