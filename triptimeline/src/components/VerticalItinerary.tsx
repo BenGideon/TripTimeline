@@ -779,8 +779,8 @@ export default function VerticalItinerary({
                           </div>
                         )}
 
-                        {/* Day Notes Section */}
-                        {day.notes && (
+                        {/* Day Notes Section - Hidden */}
+                        {/* {day.notes && (
                           <div className="p-6 border-b" style={{backgroundColor: '#fefae0', borderColor: '#b1ab86'}}>
                             <h5 className="font-semibold text-gray-900 mb-2 flex items-center">
                               📝 Day Notes
@@ -789,7 +789,7 @@ export default function VerticalItinerary({
                               {day.notes}
                             </p>
                           </div>
-                        )}
+                        )} */}
 
                         {/* Media Upload Button */}
                         <div className="p-6 border-b" style={{backgroundColor: '#fefae0', borderColor: '#b1ab86'}}>

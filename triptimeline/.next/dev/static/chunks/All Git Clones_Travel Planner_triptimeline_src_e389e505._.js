@@ -1394,35 +1394,6 @@ function VerticalItinerary({ itinerary, tripId, onAddActivity, onEditActivity, o
                                                             lineNumber: 769,
                                                             columnNumber: 27
                                                         }, this),
-                                                        day.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "p-6 border-b",
-                                                            style: {
-                                                                backgroundColor: '#fefae0',
-                                                                borderColor: '#b1ab86'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                    className: "font-semibold text-gray-900 mb-2 flex items-center",
-                                                                    children: "📝 Day Notes"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/VerticalItinerary.tsx",
-                                                                    lineNumber: 785,
-                                                                    columnNumber: 29
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-gray-700 text-sm leading-relaxed whitespace-pre-wrap",
-                                                                    children: day.notes
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/VerticalItinerary.tsx",
-                                                                    lineNumber: 788,
-                                                                    columnNumber: 29
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/VerticalItinerary.tsx",
-                                                            lineNumber: 784,
-                                                            columnNumber: 27
-                                                        }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "p-6 border-b",
                                                             style: {
@@ -3711,9 +3682,10 @@ var _s = __turbopack_context__.k.signature();
 "use client";
 ;
 ;
-function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
+function ExpenseTracker({ tripId, expenses, budget, currency, onUpdateExpenses }) {
     _s();
     const [showAddForm, setShowAddForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isSubmitting, setIsSubmitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [newExpense, setNewExpense] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         title: "",
         amount: 0,
@@ -3767,26 +3739,42 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
         }
     ];
     const getCategoryInfo = (categoryId)=>categories.find((cat)=>cat.id === categoryId) || categories[categories.length - 1];
-    const addExpense = ()=>{
-        if (!newExpense.title.trim() || newExpense.amount <= 0) return;
+    const addExpense = async ()=>{
+        if (!newExpense.title.trim() || newExpense.amount <= 0 || isSubmitting) return;
+        setIsSubmitting(true);
         const expense = {
             id: Date.now().toString(),
             ...newExpense,
             currency,
-            title: newExpense.title.trim()
+            title: newExpense.title.trim(),
+            shared: false
         };
-        onUpdateExpenses([
-            ...expenses,
-            expense
-        ]);
-        setNewExpense({
-            title: "",
-            amount: 0,
-            category: "other",
-            date: new Date().toISOString().split("T")[0],
-            description: ""
-        });
-        setShowAddForm(false);
+        // Save to database first to ensure persistence
+        try {
+            const { addExpense: saveExpense } = await __turbopack_context__.A("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/trip-service.ts [app-client] (ecmascript, async loader)");
+            await saveExpense(tripId, expense);
+            console.log("Expense saved to database successfully");
+            // Update local state only after successful database save
+            onUpdateExpenses([
+                ...expenses,
+                expense
+            ]);
+            // Reset form
+            setNewExpense({
+                title: "",
+                amount: 0,
+                category: "other",
+                date: new Date().toISOString().split("T")[0],
+                description: ""
+            });
+            setShowAddForm(false);
+        } catch (error) {
+            console.error("Error saving expense:", error);
+            // Show error to user
+            alert("Failed to save expense. Please try again.");
+        } finally{
+            setIsSubmitting(false);
+        }
     };
     const removeExpense = async (expenseId)=>{
         // Remove from local state first
@@ -3844,7 +3832,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Expense Tracker"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 160,
+                                        lineNumber: 182,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3852,13 +3840,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Monitor your spending and stay on budget"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 185,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 159,
+                                lineNumber: 181,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3871,13 +3859,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                 children: "+ Add Expense"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 167,
+                                lineNumber: 189,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                        lineNumber: 158,
+                        lineNumber: 180,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3895,7 +3883,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 204,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3903,13 +3891,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Total Budget"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 185,
+                                        lineNumber: 207,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 181,
+                                lineNumber: 203,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3924,7 +3912,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 188,
+                                        lineNumber: 210,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3932,13 +3920,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Total Spent"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 191,
+                                        lineNumber: 213,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 187,
+                                lineNumber: 209,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3956,7 +3944,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 194,
+                                        lineNumber: 216,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3964,19 +3952,19 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Remaining"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 222,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 193,
+                                lineNumber: 215,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                        lineNumber: 180,
+                        lineNumber: 202,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3990,7 +3978,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: "Budget Usage"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 229,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4002,13 +3990,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 232,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 206,
+                                lineNumber: 228,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4020,18 +4008,18 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 215,
+                                    lineNumber: 237,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 214,
+                                lineNumber: 236,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                        lineNumber: 205,
+                        lineNumber: 227,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4044,7 +4032,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: category.icon
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 229,
+                                        lineNumber: 251,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4056,7 +4044,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 230,
+                                        lineNumber: 252,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4064,24 +4052,24 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                         children: category.name
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 233,
+                                        lineNumber: 255,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, category.id, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 225,
+                                lineNumber: 247,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                        lineNumber: 223,
+                        lineNumber: 245,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                lineNumber: 157,
+                lineNumber: 179,
                 columnNumber: 7
             }, this),
             showAddForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4097,7 +4085,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     children: "Add Expense"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 244,
+                                    lineNumber: 266,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4115,23 +4103,23 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                             d: "M6 18L18 6M6 6l12 12"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 255,
+                                            lineNumber: 277,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                        lineNumber: 249,
+                                        lineNumber: 271,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 245,
+                                    lineNumber: 267,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 243,
+                            lineNumber: 265,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4148,7 +4136,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 288,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4167,7 +4155,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                             className: "flex-1 px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 277,
+                                            lineNumber: 299,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4175,13 +4163,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                             children: currency
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 291,
+                                            lineNumber: 313,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 276,
+                                    lineNumber: 298,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -4200,12 +4188,12 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                             ]
                                         }, category.id, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 329,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 296,
+                                    lineNumber: 318,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4218,7 +4206,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 313,
+                                    lineNumber: 335,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -4232,7 +4220,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 322,
+                                    lineNumber: 344,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4240,43 +4228,66 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>setShowAddForm(false),
-                                            className: "flex-1 px-4 py-3 border border-secondary border-opacity-30 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors",
+                                            className: "flex-1 px-4 py-3 rounded-xl font-semibold transition-colors",
+                                            style: {
+                                                border: '2px solid #819067',
+                                                color: '#0a400c',
+                                                backgroundColor: '#fefae0'
+                                            },
+                                            onMouseEnter: (e)=>{
+                                                e.target.style.backgroundColor = '#b1ab86';
+                                            },
+                                            onMouseLeave: (e)=>{
+                                                e.target.style.backgroundColor = '#fefae0';
+                                            },
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 333,
+                                            lineNumber: 355,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: addExpense,
-                                            className: "flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200",
-                                            children: "Add Expense"
+                                            disabled: isSubmitting,
+                                            className: "flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200",
+                                            style: {
+                                                background: isSubmitting ? '#819067' : 'linear-gradient(to right, #0A400C, #819067)',
+                                                color: '#FEFAE0',
+                                                opacity: isSubmitting ? 0.7 : 1
+                                            },
+                                            onMouseEnter: (e)=>{
+                                                if (!isSubmitting) e.target.style.opacity = '0.9';
+                                            },
+                                            onMouseLeave: (e)=>{
+                                                if (!isSubmitting) e.target.style.opacity = '1';
+                                            },
+                                            children: isSubmitting ? 'Saving...' : 'Add Expense'
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 339,
+                                            lineNumber: 372,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 332,
+                                    lineNumber: 354,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 265,
+                            lineNumber: 287,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                    lineNumber: 242,
+                    lineNumber: 264,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                lineNumber: 241,
+                lineNumber: 263,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4297,7 +4308,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 354,
+                            lineNumber: 399,
                             columnNumber: 11
                         }, this),
                         categories.map((category)=>{
@@ -4319,19 +4330,19 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                 ]
                             }, category.id, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 374,
+                                lineNumber: 419,
                                 columnNumber: 15
                             }, this);
                         })
                     ]
                 }, void 0, true, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                    lineNumber: 353,
+                    lineNumber: 398,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                lineNumber: 352,
+                lineNumber: 397,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4351,7 +4362,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                             children: categoryInfo.icon
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 409,
+                                            lineNumber: 454,
                                             columnNumber: 23
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4362,7 +4373,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                     children: expense.title
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                    lineNumber: 411,
+                                                    lineNumber: 456,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4377,7 +4388,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                             children: categoryInfo.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                            lineNumber: 415,
+                                                            lineNumber: 460,
                                                             columnNumber: 27
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4385,13 +4396,13 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(expense.date), "MMM d, yyyy")
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                            lineNumber: 425,
+                                                            lineNumber: 470,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                    lineNumber: 414,
+                                                    lineNumber: 459,
                                                     columnNumber: 25
                                                 }, this),
                                                 expense.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4399,19 +4410,19 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                     children: expense.description
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                    lineNumber: 430,
+                                                    lineNumber: 475,
                                                     columnNumber: 27
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 410,
+                                            lineNumber: 455,
                                             columnNumber: 23
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 408,
+                                    lineNumber: 453,
                                     columnNumber: 21
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4428,12 +4439,12 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                lineNumber: 439,
+                                                lineNumber: 484,
                                                 columnNumber: 25
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 438,
+                                            lineNumber: 483,
                                             columnNumber: 23
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4462,34 +4473,34 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                                     d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                    lineNumber: 464,
+                                                    lineNumber: 509,
                                                     columnNumber: 27
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                                lineNumber: 458,
+                                                lineNumber: 503,
                                                 columnNumber: 25
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                            lineNumber: 443,
+                                            lineNumber: 488,
                                             columnNumber: 23
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                    lineNumber: 437,
+                                    lineNumber: 482,
                                     columnNumber: 21
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 407,
+                            lineNumber: 452,
                             columnNumber: 19
                         }, this)
                     }, expense.id, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                        lineNumber: 403,
+                        lineNumber: 448,
                         columnNumber: 17
                     }, this);
                 }) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4502,12 +4513,12 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                                 children: "💰"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                                lineNumber: 480,
+                                lineNumber: 525,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 479,
+                            lineNumber: 524,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -4515,7 +4526,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                             children: "No expenses found"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 482,
+                            lineNumber: 527,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4523,7 +4534,7 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                             children: filter === "all" ? "Start tracking your trip expenses" : `No ${getCategoryInfo(filter).name.toLowerCase()} expenses to show`
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 485,
+                            lineNumber: 530,
                             columnNumber: 13
                         }, this),
                         filter === "all" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4532,28 +4543,28 @@ function ExpenseTracker({ expenses, budget, currency, onUpdateExpenses }) {
                             children: "Add Your First Expense"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                            lineNumber: 493,
+                            lineNumber: 538,
                             columnNumber: 15
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                    lineNumber: 478,
+                    lineNumber: 523,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-                lineNumber: 394,
+                lineNumber: 439,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ExpenseTracker.tsx",
-        lineNumber: 155,
+        lineNumber: 177,
         columnNumber: 5
     }, this);
 }
-_s(ExpenseTracker, "Zmmqode9wUvz5kfvODG21qhn6r4=");
+_s(ExpenseTracker, "d/cisIijazFSB7tZzLirfWPi7Qk=");
 _c = ExpenseTracker;
 var _c;
 __turbopack_context__.k.register(_c, "ExpenseTracker");
@@ -5223,9 +5234,10 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
+function AccommodationManager({ tripId, itinerary, currency, onUpdateItinerary, onExpenseAdded }) {
     _s();
     const [showAddForm, setShowAddForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isSubmitting, setIsSubmitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editingAccommodation, setEditingAccommodation] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [newAccommodation, setNewAccommodation] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         name: "",
@@ -5329,11 +5341,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
     const addAccommodation = async ()=>{
         console.log('addAccommodation called');
         console.log('newAccommodation:', newAccommodation);
-        if (!newAccommodation.name.trim() || !newAccommodation.checkIn || !newAccommodation.checkOut) {
+        if (!newAccommodation.name.trim() || !newAccommodation.checkIn || !newAccommodation.checkOut || isSubmitting) {
+            if (isSubmitting) return;
             console.log('Validation failed - missing required fields');
             alert('Please fill in all required fields: Name, Check-in date, and Check-out date');
             return;
         }
+        setIsSubmitting(true);
         try {
             const accommodation = {
                 id: Date.now().toString(),
@@ -5353,6 +5367,31 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
             if (dayIndex !== -1) {
                 // Save to database first
                 await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$trip$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["saveAccommodation"])(tripId, dayIndex, accommodation);
+                // If accommodation has a cost, automatically create an expense
+                if (accommodation.cost && accommodation.cost > 0) {
+                    try {
+                        const { addExpense } = await __turbopack_context__.A("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/trip-service.ts [app-client] (ecmascript, async loader)");
+                        const expense = {
+                            id: `acc_${accommodation.id}`,
+                            title: `${accommodation.name} - Accommodation`,
+                            amount: accommodation.cost,
+                            currency: currency,
+                            category: "accommodation",
+                            date: accommodation.checkIn,
+                            description: `${accommodation.type} accommodation from ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(accommodation.checkIn), 'MMM dd')} to ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(accommodation.checkOut), 'MMM dd')}`,
+                            shared: false
+                        };
+                        await addExpense(tripId, expense);
+                        console.log('Accommodation expense created automatically');
+                        // Notify parent to refresh expenses
+                        if (onExpenseAdded) {
+                            onExpenseAdded();
+                        }
+                    } catch (error) {
+                        console.error('Error creating accommodation expense:', error);
+                    // Don't fail the accommodation creation if expense creation fails
+                    }
+                }
                 // Then update local state
                 const updatedItinerary = [
                     ...itinerary
@@ -5372,23 +5411,60 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
         } catch (error) {
             console.error('Error adding accommodation:', error);
             alert(`Failed to add accommodation: ${error instanceof Error ? error.message : String(error)}`);
+        } finally{
+            setIsSubmitting(false);
         }
     };
     const updateAccommodation = async ()=>{
-        if (!editingAccommodation) return;
+        if (!editingAccommodation || isSubmitting) return;
+        setIsSubmitting(true);
         try {
+            const updatedAccommodation = {
+                ...editingAccommodation.accommodation,
+                name: editingAccommodation.accommodation.name.trim()
+            };
             // Update in database first
-            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$trip$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["updateAccommodation"])(editingAccommodation.accommodation.id, editingAccommodation.accommodation);
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$trip$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["updateAccommodation"])(editingAccommodation.accommodation.id, updatedAccommodation);
+            // Handle expense update if cost changed
+            if (updatedAccommodation.cost && updatedAccommodation.cost > 0) {
+                try {
+                    const { deleteExpense, addExpense } = await __turbopack_context__.A("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/trip-service.ts [app-client] (ecmascript, async loader)");
+                    // Delete old expense if it exists
+                    const oldExpenseId = `acc_${editingAccommodation.accommodation.id}`;
+                    try {
+                        await deleteExpense(oldExpenseId);
+                    } catch (error) {
+                    // Expense might not exist, that's okay
+                    }
+                    // Create new expense with updated cost
+                    const expense = {
+                        id: oldExpenseId,
+                        title: `${updatedAccommodation.name} - Accommodation`,
+                        amount: updatedAccommodation.cost,
+                        currency: currency,
+                        category: "accommodation",
+                        date: updatedAccommodation.checkIn,
+                        description: `${updatedAccommodation.type} accommodation from ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(updatedAccommodation.checkIn), 'MMM dd')} to ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(updatedAccommodation.checkOut), 'MMM dd')}`,
+                        shared: false
+                    };
+                    await addExpense(tripId, expense);
+                    console.log('Accommodation expense updated automatically');
+                    // Notify parent to refresh expenses
+                    if (onExpenseAdded) {
+                        onExpenseAdded();
+                    }
+                } catch (error) {
+                    console.error('Error updating accommodation expense:', error);
+                // Don't fail the accommodation update if expense update fails
+                }
+            }
             // Then update local state
             const updatedItinerary = [
                 ...itinerary
             ];
             updatedItinerary[editingAccommodation.dayIndex] = {
                 ...updatedItinerary[editingAccommodation.dayIndex],
-                accommodation: {
-                    ...editingAccommodation.accommodation,
-                    name: editingAccommodation.accommodation.name.trim()
-                }
+                accommodation: updatedAccommodation
             };
             onUpdateItinerary(updatedItinerary);
             setEditingAccommodation(null);
@@ -5396,12 +5472,31 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
         } catch (error) {
             console.error('Error updating accommodation:', error);
             alert('Failed to update accommodation. Please try again.');
+        } finally{
+            setIsSubmitting(false);
         }
     };
     const removeAccommodation = async (dayIndex)=>{
         try {
+            const accommodation = itinerary[dayIndex].accommodation;
             // Remove from database first
-            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$trip$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deleteAccommodation"])(itinerary[dayIndex].accommodation.id);
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$lib$2f$trip$2d$service$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deleteAccommodation"])(accommodation.id);
+            // Also remove associated expense if it exists
+            if (accommodation.cost && accommodation.cost > 0) {
+                try {
+                    const { deleteExpense } = await __turbopack_context__.A("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/trip-service.ts [app-client] (ecmascript, async loader)");
+                    const expenseId = `acc_${accommodation.id}`;
+                    await deleteExpense(expenseId);
+                    console.log('Associated accommodation expense deleted');
+                    // Notify parent to refresh expenses
+                    if (onExpenseAdded) {
+                        onExpenseAdded();
+                    }
+                } catch (error) {
+                    console.error('Error deleting accommodation expense:', error);
+                // Don't fail the accommodation deletion if expense deletion fails
+                }
+            }
             // Then update local state
             const updatedItinerary = [
                 ...itinerary
@@ -5450,7 +5545,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: "Accommodation"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 229,
+                                        lineNumber: 332,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5458,13 +5553,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: "Manage your hotels and places to stay"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 230,
+                                        lineNumber: 333,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 228,
+                                lineNumber: 331,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5480,13 +5575,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                 children: "+ Add Accommodation"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 234,
+                                lineNumber: 337,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                        lineNumber: 227,
+                        lineNumber: 330,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5500,7 +5595,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: accommodationsWithDays.length
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 252,
+                                        lineNumber: 355,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5508,13 +5603,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: "Bookings"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 255,
+                                        lineNumber: 358,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 251,
+                                lineNumber: 354,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5528,7 +5623,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 258,
+                                        lineNumber: 361,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5536,13 +5631,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: "Total Cost"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 261,
+                                        lineNumber: 364,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 257,
+                                lineNumber: 360,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5556,7 +5651,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         }, 0)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 264,
+                                        lineNumber: 367,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5564,25 +5659,25 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                         children: "Total Nights"
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 276,
+                                        lineNumber: 379,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 263,
+                                lineNumber: 366,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                        lineNumber: 250,
+                        lineNumber: 353,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                lineNumber: 226,
+                lineNumber: 329,
                 columnNumber: 7
             }, this),
             (showAddForm || editingAccommodation) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5598,7 +5693,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                     children: editingAccommodation ? "Edit Accommodation" : "Add Accommodation"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 286,
+                                    lineNumber: 389,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5619,23 +5714,23 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             d: "M6 18L18 6M6 6l12 12"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 304,
+                                            lineNumber: 407,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                        lineNumber: 298,
+                                        lineNumber: 401,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 291,
+                                    lineNumber: 394,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 285,
+                            lineNumber: 388,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5661,7 +5756,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 317,
+                                            lineNumber: 420,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -5686,18 +5781,18 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     ]
                                                 }, type.id, true, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 365,
+                                                    lineNumber: 468,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 342,
+                                            lineNumber: 445,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 316,
+                                    lineNumber: 419,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -5717,7 +5812,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                     className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 372,
+                                    lineNumber: 475,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5739,7 +5834,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 399,
+                                            lineNumber: 502,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5758,7 +5853,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 423,
+                                            lineNumber: 526,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5780,13 +5875,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 447,
+                                            lineNumber: 550,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 398,
+                                    lineNumber: 501,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5796,7 +5891,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             children: "Rating"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 477,
+                                            lineNumber: 580,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5823,18 +5918,18 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     children: "⭐"
                                                 }, star, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 482,
+                                                    lineNumber: 585,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 480,
+                                            lineNumber: 583,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 476,
+                                    lineNumber: 579,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5857,7 +5952,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 517,
+                                            lineNumber: 620,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5877,13 +5972,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 543,
+                                            lineNumber: 646,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 516,
+                                    lineNumber: 619,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -5903,7 +5998,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                     className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 569,
+                                    lineNumber: 672,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5918,42 +6013,51 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 595,
+                                            lineNumber: 698,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: editingAccommodation ? updateAccommodation : addAccommodation,
-                                            className: "flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200",
-                                            children: [
-                                                editingAccommodation ? "Update" : "Add",
-                                                " Accommodation"
-                                            ]
-                                        }, void 0, true, {
+                                            disabled: isSubmitting,
+                                            className: "flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200",
+                                            style: {
+                                                background: isSubmitting ? '#819067' : 'linear-gradient(to right, #0A400C, #819067)',
+                                                color: '#FEFAE0',
+                                                opacity: isSubmitting ? 0.7 : 1
+                                            },
+                                            onMouseEnter: (e)=>{
+                                                if (!isSubmitting) e.target.style.opacity = '0.9';
+                                            },
+                                            onMouseLeave: (e)=>{
+                                                if (!isSubmitting) e.target.style.opacity = '1';
+                                            },
+                                            children: isSubmitting ? 'Saving...' : `${editingAccommodation ? "Update" : "Add"} Accommodation`
+                                        }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 604,
+                                            lineNumber: 707,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 594,
+                                    lineNumber: 697,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 314,
+                            lineNumber: 417,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                    lineNumber: 284,
+                    lineNumber: 387,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                lineNumber: 283,
+                lineNumber: 386,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5975,7 +6079,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                             children: typeInfo.icon
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 638,
+                                            lineNumber: 756,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5986,7 +6090,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     children: accommodation.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 640,
+                                                    lineNumber: 758,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5994,7 +6098,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     children: accommodation.address
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 643,
+                                                    lineNumber: 761,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6005,7 +6109,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                             children: typeInfo.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 648,
+                                                            lineNumber: 766,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6017,18 +6121,18 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: "⭐"
                                                                 }, i, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 653,
+                                                                    lineNumber: 771,
                                                                     columnNumber: 29
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 651,
+                                                            lineNumber: 769,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 647,
+                                                    lineNumber: 765,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6041,7 +6145,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: "Check-in:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 669,
+                                                                    lineNumber: 787,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6049,13 +6153,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(accommodation.checkIn), "MMM d, yyyy")
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 670,
+                                                                    lineNumber: 788,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 668,
+                                                            lineNumber: 786,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6065,7 +6169,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: "Check-out:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 678,
+                                                                    lineNumber: 796,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6073,13 +6177,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseISO"])(accommodation.checkOut), "MMM d, yyyy")
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 679,
+                                                                    lineNumber: 797,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 677,
+                                                            lineNumber: 795,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6089,7 +6193,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: "Nights:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 687,
+                                                                    lineNumber: 805,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6097,13 +6201,13 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: nights
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 688,
+                                                                    lineNumber: 806,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 686,
+                                                            lineNumber: 804,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6113,7 +6217,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     children: "Total Cost:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 691,
+                                                                    lineNumber: 809,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6125,19 +6229,19 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                                    lineNumber: 692,
+                                                                    lineNumber: 810,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                            lineNumber: 690,
+                                                            lineNumber: 808,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 667,
+                                                    lineNumber: 785,
                                                     columnNumber: 23
                                                 }, this),
                                                 accommodation.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -6145,19 +6249,19 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     children: accommodation.notes
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 701,
+                                                    lineNumber: 819,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 639,
+                                            lineNumber: 757,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 637,
+                                    lineNumber: 755,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6181,17 +6285,17 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 724,
+                                                    lineNumber: 842,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                lineNumber: 718,
+                                                lineNumber: 836,
                                                 columnNumber: 23
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 709,
+                                            lineNumber: 827,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6220,34 +6324,34 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                                     d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                                 }, void 0, false, {
                                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                    lineNumber: 751,
+                                                    lineNumber: 869,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                                lineNumber: 745,
+                                                lineNumber: 863,
                                                 columnNumber: 23
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                            lineNumber: 732,
+                                            lineNumber: 850,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                    lineNumber: 708,
+                                    lineNumber: 826,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 636,
+                            lineNumber: 754,
                             columnNumber: 17
                         }, this)
                     }, day.dayIndex, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                        lineNumber: 632,
+                        lineNumber: 750,
                         columnNumber: 15
                     }, this);
                 }) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6260,12 +6364,12 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                                 children: "🏨"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                                lineNumber: 767,
+                                lineNumber: 885,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 766,
+                            lineNumber: 884,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -6273,7 +6377,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                             children: "No accommodations added"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 769,
+                            lineNumber: 887,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -6281,7 +6385,7 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                             children: "Add hotels, Airbnbs, or other places you'll be staying"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 772,
+                            lineNumber: 890,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6290,28 +6394,28 @@ function AccommodationManager({ tripId, itinerary, onUpdateItinerary }) {
                             children: "Add Your First Accommodation"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                            lineNumber: 775,
+                            lineNumber: 893,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                    lineNumber: 765,
+                    lineNumber: 883,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-                lineNumber: 621,
+                lineNumber: 739,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/AccommodationManager.tsx",
-        lineNumber: 224,
+        lineNumber: 327,
         columnNumber: 5
     }, this);
 }
-_s(AccommodationManager, "3syGC6RjHxC5Kp56S1dvfKubHMA=");
+_s(AccommodationManager, "6Q8PifQzg5HJqU7yKSepenRmbAw=");
 _c = AccommodationManager;
 var _c;
 __turbopack_context__.k.register(_c, "AccommodationManager");
@@ -8648,12 +8752,19 @@ function ItineraryPage({ params }) {
                                 columnNumber: 13
                             }, this),
                             activeTab === "expenses" && trip && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$ExpenseTracker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                tripId: trip.id,
                                 expenses: trip.expenses,
                                 budget: trip.budget || 0,
                                 currency: trip.currency,
-                                onUpdateExpenses: (expenses)=>updateTrip({
+                                onUpdateExpenses: async (expenses)=>{
+                                    // Update local state immediately
+                                    setTrip({
+                                        ...trip,
                                         expenses
-                                    })
+                                    });
+                                // Note: Individual expenses are saved by the ExpenseTracker component
+                                // This just updates the local state for immediate UI feedback
+                                }
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx",
                                 lineNumber: 415,
@@ -8662,12 +8773,25 @@ function ItineraryPage({ params }) {
                             activeTab === "accommodation" && trip && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$AccommodationManager$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 tripId: trip.id,
                                 itinerary: trip.itinerary,
+                                currency: trip.currency,
                                 onUpdateItinerary: (itinerary)=>updateTrip({
                                         itinerary
-                                    })
+                                    }),
+                                onExpenseAdded: async ()=>{
+                                    // Refresh trip data to show the new expense
+                                    try {
+                                        const { getTrip } = await __turbopack_context__.A("[project]/All Git Clones/Travel Planner/triptimeline/src/lib/trip-service.ts [app-client] (ecmascript, async loader)");
+                                        const updatedTrip = await getTrip(trip.id);
+                                        if (updatedTrip) {
+                                            setTrip(updatedTrip);
+                                        }
+                                    } catch (error) {
+                                        console.error('Error refreshing trip data:', error);
+                                    }
+                                }
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx",
-                                lineNumber: 424,
+                                lineNumber: 431,
                                 columnNumber: 13
                             }, this)
                         ]
@@ -8684,12 +8808,12 @@ function ItineraryPage({ params }) {
                             children: "← Back to Dashboard"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx",
-                            lineNumber: 434,
+                            lineNumber: 454,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/itinerary/[id]/page.tsx",
-                        lineNumber: 433,
+                        lineNumber: 453,
                         columnNumber: 9
                     }, this)
                 ]

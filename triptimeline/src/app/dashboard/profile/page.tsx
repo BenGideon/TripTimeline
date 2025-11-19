@@ -65,7 +65,7 @@ export default function ProfilePage() {
     : user.email?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-bg">
       <DashboardHeader user={user} />
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/20 mb-8">
           {/* Avatar Section */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg">
+            <div className="w-24 h-24 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg">
               {userInitials}
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{displayName || 'User'}</h1>
@@ -125,7 +125,7 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSaveProfile}
                   disabled={isSaving}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
+                  className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
                 >
                   {isSaving ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -142,7 +142,17 @@ export default function ProfilePage() {
             ) : (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200"
+                className="px-8 py-3 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200"
+                style={{
+                  background: 'linear-gradient(to right, #0A400C, #819067)',
+                  color: '#FEFAE0'
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.opacity = '0.9';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.opacity = '1';
+                }}
               >
                 Edit Profile
               </button>

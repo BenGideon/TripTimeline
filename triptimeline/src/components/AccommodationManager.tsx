@@ -8,15 +8,20 @@ import { saveAccommodation, updateAccommodation as updateAccommodationDB, delete
 interface AccommodationManagerProps {
   tripId: string;
   itinerary: ItineraryDay[];
+  currency: string;
   onUpdateItinerary: (itinerary: ItineraryDay[]) => void;
+  onExpenseAdded?: () => void; // Callback to refresh expenses
 }
 
 export default function AccommodationManager({
   tripId,
   itinerary,
+  currency,
   onUpdateItinerary,
+  onExpenseAdded,
 }: AccommodationManagerProps) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingAccommodation, setEditingAccommodation] = useState<{
     dayIndex: number;
     accommodation: Accommodation;
@@ -103,12 +108,16 @@ export default function AccommodationManager({
     if (
       !newAccommodation.name.trim() ||
       !newAccommodation.checkIn ||
-      !newAccommodation.checkOut
+      !newAccommodation.checkOut ||
+      isSubmitting
     ) {
+      if (isSubmitting) return;
       console.log('Validation failed - missing required fields');
       alert('Please fill in all required fields: Name, Check-in date, and Check-out date');
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       const accommodation: Accommodation = {
@@ -132,6 +141,34 @@ export default function AccommodationManager({
         // Save to database first
         await saveAccommodation(tripId, dayIndex, accommodation);
         
+        // If accommodation has a cost, automatically create an expense
+        if (accommodation.cost && accommodation.cost > 0) {
+          try {
+            const { addExpense } = await import("@/lib/trip-service");
+            const expense = {
+              id: `acc_${accommodation.id}`,
+              title: `${accommodation.name} - Accommodation`,
+              amount: accommodation.cost,
+              currency: currency,
+              category: "accommodation" as const,
+              date: accommodation.checkIn,
+              description: `${accommodation.type} accommodation from ${format(parseISO(accommodation.checkIn), 'MMM dd')} to ${format(parseISO(accommodation.checkOut), 'MMM dd')}`,
+              shared: false
+            };
+            
+            await addExpense(tripId, expense);
+            console.log('Accommodation expense created automatically');
+            
+            // Notify parent to refresh expenses
+            if (onExpenseAdded) {
+              onExpenseAdded();
+            }
+          } catch (error) {
+            console.error('Error creating accommodation expense:', error);
+            // Don't fail the accommodation creation if expense creation fails
+          }
+        }
+        
         // Then update local state
         const updatedItinerary = [...itinerary];
         updatedItinerary[dayIndex] = {
@@ -150,24 +187,68 @@ export default function AccommodationManager({
     } catch (error) {
       console.error('Error adding accommodation:', error);
       alert(`Failed to add accommodation: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const updateAccommodation = async () => {
-    if (!editingAccommodation) return;
+    if (!editingAccommodation || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
+      const updatedAccommodation = {
+        ...editingAccommodation.accommodation,
+        name: editingAccommodation.accommodation.name.trim(),
+      };
+
       // Update in database first
-      await updateAccommodationDB(editingAccommodation.accommodation.id, editingAccommodation.accommodation);
+      await updateAccommodationDB(editingAccommodation.accommodation.id, updatedAccommodation);
+      
+      // Handle expense update if cost changed
+      if (updatedAccommodation.cost && updatedAccommodation.cost > 0) {
+        try {
+          const { deleteExpense, addExpense } = await import("@/lib/trip-service");
+          
+          // Delete old expense if it exists
+          const oldExpenseId = `acc_${editingAccommodation.accommodation.id}`;
+          try {
+            await deleteExpense(oldExpenseId);
+          } catch (error) {
+            // Expense might not exist, that's okay
+          }
+          
+          // Create new expense with updated cost
+          const expense = {
+            id: oldExpenseId,
+            title: `${updatedAccommodation.name} - Accommodation`,
+            amount: updatedAccommodation.cost,
+            currency: currency,
+            category: "accommodation" as const,
+            date: updatedAccommodation.checkIn,
+            description: `${updatedAccommodation.type} accommodation from ${format(parseISO(updatedAccommodation.checkIn), 'MMM dd')} to ${format(parseISO(updatedAccommodation.checkOut), 'MMM dd')}`,
+            shared: false
+          };
+          
+          await addExpense(tripId, expense);
+          console.log('Accommodation expense updated automatically');
+          
+          // Notify parent to refresh expenses
+          if (onExpenseAdded) {
+            onExpenseAdded();
+          }
+        } catch (error) {
+          console.error('Error updating accommodation expense:', error);
+          // Don't fail the accommodation update if expense update fails
+        }
+      }
       
       // Then update local state
       const updatedItinerary = [...itinerary];
       updatedItinerary[editingAccommodation.dayIndex] = {
         ...updatedItinerary[editingAccommodation.dayIndex],
-        accommodation: {
-          ...editingAccommodation.accommodation,
-          name: editingAccommodation.accommodation.name.trim(),
-        },
+        accommodation: updatedAccommodation,
       };
       onUpdateItinerary(updatedItinerary);
       setEditingAccommodation(null);
@@ -175,13 +256,35 @@ export default function AccommodationManager({
     } catch (error) {
       console.error('Error updating accommodation:', error);
       alert('Failed to update accommodation. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const removeAccommodation = async (dayIndex: number) => {
     try {
+      const accommodation = itinerary[dayIndex].accommodation!;
+      
       // Remove from database first
-      await deleteAccommodationDB(itinerary[dayIndex].accommodation!.id);
+      await deleteAccommodationDB(accommodation.id);
+      
+      // Also remove associated expense if it exists
+      if (accommodation.cost && accommodation.cost > 0) {
+        try {
+          const { deleteExpense } = await import("@/lib/trip-service");
+          const expenseId = `acc_${accommodation.id}`;
+          await deleteExpense(expenseId);
+          console.log('Associated accommodation expense deleted');
+          
+          // Notify parent to refresh expenses
+          if (onExpenseAdded) {
+            onExpenseAdded();
+          }
+        } catch (error) {
+          console.error('Error deleting accommodation expense:', error);
+          // Don't fail the accommodation deletion if expense deletion fails
+        }
+      }
       
       // Then update local state
       const updatedItinerary = [...itinerary];
@@ -607,9 +710,24 @@ export default function AccommodationManager({
                       ? updateAccommodation
                       : addAccommodation
                   }
-                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
+                  disabled={isSubmitting}
+                  className="flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200"
+                  style={{
+                    background: isSubmitting ? '#819067' : 'linear-gradient(to right, #0A400C, #819067)',
+                    color: '#FEFAE0',
+                    opacity: isSubmitting ? 0.7 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) (e.target as HTMLElement).style.opacity = '0.9';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitting) (e.target as HTMLElement).style.opacity = '1';
+                  }}
                 >
-                  {editingAccommodation ? "Update" : "Add"} Accommodation
+                  {isSubmitting 
+                    ? 'Saving...' 
+                    : `${editingAccommodation ? "Update" : "Add"} Accommodation`
+                  }
                 </button>
               </div>
             </div>

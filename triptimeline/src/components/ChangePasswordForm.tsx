@@ -85,7 +85,17 @@ export default function ChangePasswordForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
+        className="w-full px-6 py-3 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50"
+        style={{
+          background: 'linear-gradient(to right, #0A400C, #819067)',
+          color: '#FEFAE0'
+        }}
+        onMouseEnter={(e) => {
+          (e.target as HTMLElement).style.opacity = '0.9';
+        }}
+        onMouseLeave={(e) => {
+          (e.target as HTMLElement).style.opacity = '1';
+        }}
       >
         {isLoading ? 'Changing Password...' : 'Change Password'}
       </button>

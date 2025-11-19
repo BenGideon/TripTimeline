@@ -1,6 +1,37 @@
 {
   "version": 3,
-  "middleware": {},
-  "sortedMiddleware": [],
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/All Git Clones_Travel Planner_triptimeline_953c10fc._.js",
+        "server/edge/chunks/a5d77_@supabase_realtime-js_dist_module_d997e8e8._.js",
+        "server/edge/chunks/a5d77_@supabase_storage-js_dist_module_eb441277._.js",
+        "server/edge/chunks/a5d77_@supabase_auth-js_dist_module_77d27183._.js",
+        "server/edge/chunks/a5d77_af7c0ad1._.js",
+        "server/edge/chunks/[root-of-the-server]__60664fae._.js",
+        "server/edge/chunks/turbopack-All Git Clones_Travel Planner_triptimeline_edge-wrapper_25d14cfb.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*))(\\\\.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "iZvEQBMFnPMU6wLVSTrt4M72f5q4RY7Z5cFcKCXLdxY=",
+        "__NEXT_PREVIEW_MODE_ID": "37e5a0259fa9b2c97a36ac6222f66245",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "0d2903f3da7e9222d6d275ae97a076fb0c52daee7dde60aac7b8e22e271437fd",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "519a1020bacf77c25d64803b8ca2198420789288a6f57002c15dfe3dd6a70567"
+      }
+    }
+  },
+  "sortedMiddleware": [
+    "/"
+  ],
   "functions": {}
 }

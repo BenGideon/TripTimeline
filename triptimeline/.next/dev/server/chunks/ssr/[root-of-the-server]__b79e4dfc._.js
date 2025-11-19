@@ -367,7 +367,7 @@ function ChangePasswordForm() {
                         type: "password",
                         value: newPassword,
                         onChange: (e)=>setNewPassword(e.target.value),
-                        className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
                         placeholder: "Enter new password",
                         required: true
                     }, void 0, false, {
@@ -395,7 +395,7 @@ function ChangePasswordForm() {
                         type: "password",
                         value: confirmPassword,
                         onChange: (e)=>setConfirmPassword(e.target.value),
-                        className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        className: "w-full px-4 py-3 border border-secondary border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
                         placeholder: "Confirm new password",
                         required: true
                     }, void 0, false, {
@@ -425,7 +425,17 @@ function ChangePasswordForm() {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 type: "submit",
                 disabled: isLoading,
-                className: "w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50",
+                className: "w-full px-6 py-3 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50",
+                style: {
+                    background: 'linear-gradient(to right, #0A400C, #819067)',
+                    color: '#FEFAE0'
+                },
+                onMouseEnter: (e)=>{
+                    e.target.style.opacity = '0.9';
+                },
+                onMouseLeave: (e)=>{
+                    e.target.style.opacity = '1';
+                },
                 children: isLoading ? 'Changing Password...' : 'Change Password'
             }, void 0, false, {
                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/ChangePasswordForm.tsx",
@@ -547,7 +557,7 @@ function ProfilePage() {
     };
     const userInitials = displayName ? displayName.split(' ').map((n)=>n[0]).join('').toUpperCase() : user.email?.charAt(0).toUpperCase() || 'U';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50",
+        className: "min-h-screen bg-bg",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$DashboardHeader$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 user: user
@@ -566,7 +576,7 @@ function ProfilePage() {
                                 className: "flex flex-col items-center mb-8",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "w-24 h-24 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg",
+                                        className: "w-24 h-24 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg",
                                         children: userInitials
                                     }, void 0, false, {
                                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
@@ -705,7 +715,7 @@ function ProfilePage() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: handleSaveProfile,
                                             disabled: isSaving,
-                                            className: "bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50",
+                                            className: "bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50",
                                             children: isSaving ? 'Saving...' : 'Save Changes'
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
@@ -727,7 +737,17 @@ function ProfilePage() {
                                     ]
                                 }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setIsEditing(true),
-                                    className: "bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200",
+                                    className: "px-8 py-3 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200",
+                                    style: {
+                                        background: 'linear-gradient(to right, #0A400C, #819067)',
+                                        color: '#FEFAE0'
+                                    },
+                                    onMouseEnter: (e)=>{
+                                        e.target.style.opacity = '0.9';
+                                    },
+                                    onMouseLeave: (e)=>{
+                                        e.target.style.opacity = '1';
+                                    },
                                     children: "Edit Profile"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
@@ -759,12 +779,12 @@ function ProfilePage() {
                                     children: "Sign Out"
                                 }, void 0, false, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                    lineNumber: 154,
+                                    lineNumber: 164,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                lineNumber: 153,
+                                lineNumber: 163,
                                 columnNumber: 11
                             }, this)
                         ]
@@ -781,18 +801,18 @@ function ProfilePage() {
                                 children: "Change Password"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                lineNumber: 177,
+                                lineNumber: 187,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$src$2f$components$2f$ChangePasswordForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                                lineNumber: 178,
+                                lineNumber: 188,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                        lineNumber: 176,
+                        lineNumber: 186,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -808,12 +828,12 @@ function ProfilePage() {
                             children: "← Back to Dashboard"
                         }, void 0, false, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                            lineNumber: 183,
+                            lineNumber: 193,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/app/dashboard/profile/page.tsx",
-                        lineNumber: 182,
+                        lineNumber: 192,
                         columnNumber: 9
                     }, this)
                 ]

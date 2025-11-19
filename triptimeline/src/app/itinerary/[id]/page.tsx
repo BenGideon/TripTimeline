@@ -413,10 +413,17 @@ export default function ItineraryPage({
 
           {activeTab === "expenses" && trip && (
             <ExpenseTracker
+              tripId={trip.id}
               expenses={trip.expenses}
               budget={trip.budget || 0}
               currency={trip.currency}
-              onUpdateExpenses={(expenses) => updateTrip({ expenses })}
+              onUpdateExpenses={async (expenses) => {
+                // Update local state immediately
+                setTrip({ ...trip, expenses });
+                
+                // Note: Individual expenses are saved by the ExpenseTracker component
+                // This just updates the local state for immediate UI feedback
+              }}
             />
           )}
 
@@ -424,7 +431,20 @@ export default function ItineraryPage({
             <AccommodationManager
               tripId={trip.id}
               itinerary={trip.itinerary}
+              currency={trip.currency}
               onUpdateItinerary={(itinerary) => updateTrip({ itinerary })}
+              onExpenseAdded={async () => {
+                // Refresh trip data to show the new expense
+                try {
+                  const { getTrip } = await import("@/lib/trip-service");
+                  const updatedTrip = await getTrip(trip.id);
+                  if (updatedTrip) {
+                    setTrip(updatedTrip);
+                  }
+                } catch (error) {
+                  console.error('Error refreshing trip data:', error);
+                }
+              }}
             />
           )}
         </div>

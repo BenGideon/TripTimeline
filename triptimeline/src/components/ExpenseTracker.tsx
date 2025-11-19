@@ -5,6 +5,7 @@ import { Expense } from "@/types/itinerary";
 import { format, parseISO } from "date-fns";
 
 interface ExpenseTrackerProps {
+  tripId: string;
   expenses: Expense[];
   budget: number;
   currency: string;
@@ -12,12 +13,14 @@ interface ExpenseTrackerProps {
 }
 
 export default function ExpenseTracker({
+  tripId,
   expenses,
   budget,
   currency,
   onUpdateExpenses,
 }: ExpenseTrackerProps) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [newExpense, setNewExpense] = useState({
     title: "",
     amount: 0,
@@ -76,25 +79,44 @@ export default function ExpenseTracker({
     categories.find((cat) => cat.id === categoryId) ||
     categories[categories.length - 1];
 
-  const addExpense = () => {
-    if (!newExpense.title.trim() || newExpense.amount <= 0) return;
+  const addExpense = async () => {
+    if (!newExpense.title.trim() || newExpense.amount <= 0 || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     const expense: Expense = {
       id: Date.now().toString(),
       ...newExpense,
       currency,
       title: newExpense.title.trim(),
+      shared: false
     };
 
-    onUpdateExpenses([...expenses, expense]);
-    setNewExpense({
-      title: "",
-      amount: 0,
-      category: "other",
-      date: new Date().toISOString().split("T")[0],
-      description: "",
-    });
-    setShowAddForm(false);
+    // Save to database first to ensure persistence
+    try {
+      const { addExpense: saveExpense } = await import("@/lib/trip-service");
+      await saveExpense(tripId, expense);
+      console.log("Expense saved to database successfully");
+      
+      // Update local state only after successful database save
+      onUpdateExpenses([...expenses, expense]);
+      
+      // Reset form
+      setNewExpense({
+        title: "",
+        amount: 0,
+        category: "other",
+        date: new Date().toISOString().split("T")[0],
+        description: "",
+      });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Error saving expense:", error);
+      // Show error to user
+      alert("Failed to save expense. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const removeExpense = async (expenseId: string) => {
@@ -332,15 +354,38 @@ export default function ExpenseTracker({
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={() => setShowAddForm(false)}
-                  className="flex-1 px-4 py-3 border border-secondary border-opacity-30 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 rounded-xl font-semibold transition-colors"
+                  style={{
+                    border: '2px solid #819067',
+                    color: '#0a400c',
+                    backgroundColor: '#fefae0'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = '#b1ab86';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = '#fefae0';
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={addExpense}
-                  className="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-200"
+                  disabled={isSubmitting}
+                  className="flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200"
+                  style={{
+                    background: isSubmitting ? '#819067' : 'linear-gradient(to right, #0A400C, #819067)',
+                    color: '#FEFAE0',
+                    opacity: isSubmitting ? 0.7 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) (e.target as HTMLElement).style.opacity = '0.9';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitting) (e.target as HTMLElement).style.opacity = '1';
+                  }}
                 >
-                  Add Expense
+                  {isSubmitting ? 'Saving...' : 'Add Expense'}
                 </button>
               </div>
             </div>
