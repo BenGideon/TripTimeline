@@ -14,7 +14,6 @@ const nextConfig = {
     ],
   },
   // Removed experimental settings that can cause deployment issues
-  output: 'standalone',
 };
 
 module.exports = nextConfig;
