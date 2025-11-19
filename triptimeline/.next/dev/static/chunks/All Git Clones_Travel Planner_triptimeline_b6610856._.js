@@ -383,7 +383,17 @@ function SignupForm() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         type: "submit",
                         disabled: loading,
-                        className: "w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold text-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5",
+                        className: "w-full py-3 px-4 rounded-xl font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5",
+                        style: {
+                            background: 'linear-gradient(to right, #0A400C, #819067)',
+                            color: '#FEFAE0'
+                        },
+                        onMouseEnter: (e)=>{
+                            e.target.style.opacity = '0.9';
+                        },
+                        onMouseLeave: (e)=>{
+                            e.target.style.opacity = '1';
+                        },
                         children: loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex items-center justify-center",
                             children: [
@@ -402,7 +412,7 @@ function SignupForm() {
                                             strokeWidth: "4"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                                            lineNumber: 218,
+                                            lineNumber: 228,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$All__Git__Clones$2f$Travel__Planner$2f$triptimeline$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -411,20 +421,20 @@ function SignupForm() {
                                             d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                         }, void 0, false, {
                                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                                            lineNumber: 226,
+                                            lineNumber: 236,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                                    lineNumber: 212,
+                                    lineNumber: 222,
                                     columnNumber: 15
                                 }, this),
                                 "Creating your account..."
                             ]
                         }, void 0, true, {
                             fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                            lineNumber: 211,
+                            lineNumber: 221,
                             columnNumber: 13
                         }, this) : "Create Account - Free!"
                     }, void 0, false, {
@@ -443,7 +453,7 @@ function SignupForm() {
                                 children: "Terms of Service"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                                lineNumber: 241,
+                                lineNumber: 251,
                                 columnNumber: 11
                             }, this),
                             " ",
@@ -455,13 +465,13 @@ function SignupForm() {
                                 children: "Privacy Policy"
                             }, void 0, false, {
                                 fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                                lineNumber: 245,
+                                lineNumber: 255,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/All Git Clones/Travel Planner/triptimeline/src/components/SignupForm.tsx",
-                        lineNumber: 239,
+                        lineNumber: 249,
                         columnNumber: 9
                     }, this)
                 ]

@@ -205,7 +205,17 @@ export default function SignupForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-semibold text-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="w-full py-3 px-4 rounded-xl font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          style={{
+            background: 'linear-gradient(to right, #0A400C, #819067)',
+            color: '#FEFAE0'
+          }}
+          onMouseEnter={(e) => {
+            (e.target as HTMLElement).style.opacity = '0.9';
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLElement).style.opacity = '1';
+          }}
         >
           {loading ? (
             <div className="flex items-center justify-center">
