@@ -13,18 +13,8 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost:3000'],
-    },
-    turbo: {
-      rules: {
-        '*.css': {
-          loaders: ['css-loader', 'postcss-loader'],
-        },
-      },
-    },
-  },
+  // Removed experimental settings that can cause deployment issues
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

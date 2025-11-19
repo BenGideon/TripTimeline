@@ -2033,10 +2033,6 @@ body {
   --tw-bg-opacity: .9;
 }
 
-.hover\:bg-gradient-to-r:hover {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
-
 .hover\:from-green-700:hover {
   --tw-gradient-from: #15803d var(--tw-gradient-from-position);
   --tw-gradient-to: #15803d00 var(--tw-gradient-to-position);
@@ -2119,10 +2115,6 @@ body {
 
 .hover\:text-secondary:hover {
   color: #819067;
-}
-
-.hover\:bg-primary:hover {
-  background-color: #0a400c;
 }
 
 .hover\:bg-secondary:hover {
