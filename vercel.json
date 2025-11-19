@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd triptimeline && npm run build",
+  "installCommand": "cd triptimeline && npm install",
+  "outputDirectory": "triptimeline/.next"
+}
